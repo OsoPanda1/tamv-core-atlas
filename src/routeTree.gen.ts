@@ -9,38 +9,234 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NexusRouteImport } from './routes/nexus'
+import { Route as Mdx5RouteImport } from './routes/mdx5'
+import { Route as KorimaRouteImport } from './routes/korima'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as EoctRouteImport } from './routes/eoct'
+import { Route as DocsRouteImport } from './routes/docs'
+import { Route as ConsoleRouteImport } from './routes/console'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AtlasRouteImport } from './routes/atlas'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocsSlugRouteImport } from './routes/docs.$slug'
 
+const NexusRoute = NexusRouteImport.update({
+  id: '/nexus',
+  path: '/nexus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Mdx5Route = Mdx5RouteImport.update({
+  id: '/mdx5',
+  path: '/mdx5',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KorimaRoute = KorimaRouteImport.update({
+  id: '/korima',
+  path: '/korima',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EoctRoute = EoctRouteImport.update({
+  id: '/eoct',
+  path: '/eoct',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsoleRoute = ConsoleRouteImport.update({
+  id: '/console',
+  path: '/console',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtlasRoute = AtlasRouteImport.update({
+  id: '/atlas',
+  path: '/atlas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsSlugRoute = DocsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => DocsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/atlas': typeof AtlasRoute
+  '/auth': typeof AuthRoute
+  '/console': typeof ConsoleRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/eoct': typeof EoctRoute
+  '/events': typeof EventsRoute
+  '/korima': typeof KorimaRoute
+  '/mdx5': typeof Mdx5Route
+  '/nexus': typeof NexusRoute
+  '/docs/$slug': typeof DocsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/atlas': typeof AtlasRoute
+  '/auth': typeof AuthRoute
+  '/console': typeof ConsoleRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/eoct': typeof EoctRoute
+  '/events': typeof EventsRoute
+  '/korima': typeof KorimaRoute
+  '/mdx5': typeof Mdx5Route
+  '/nexus': typeof NexusRoute
+  '/docs/$slug': typeof DocsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/atlas': typeof AtlasRoute
+  '/auth': typeof AuthRoute
+  '/console': typeof ConsoleRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/eoct': typeof EoctRoute
+  '/events': typeof EventsRoute
+  '/korima': typeof KorimaRoute
+  '/mdx5': typeof Mdx5Route
+  '/nexus': typeof NexusRoute
+  '/docs/$slug': typeof DocsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/atlas'
+    | '/auth'
+    | '/console'
+    | '/docs'
+    | '/eoct'
+    | '/events'
+    | '/korima'
+    | '/mdx5'
+    | '/nexus'
+    | '/docs/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/atlas'
+    | '/auth'
+    | '/console'
+    | '/docs'
+    | '/eoct'
+    | '/events'
+    | '/korima'
+    | '/mdx5'
+    | '/nexus'
+    | '/docs/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/atlas'
+    | '/auth'
+    | '/console'
+    | '/docs'
+    | '/eoct'
+    | '/events'
+    | '/korima'
+    | '/mdx5'
+    | '/nexus'
+    | '/docs/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AtlasRoute: typeof AtlasRoute
+  AuthRoute: typeof AuthRoute
+  ConsoleRoute: typeof ConsoleRoute
+  DocsRoute: typeof DocsRouteWithChildren
+  EoctRoute: typeof EoctRoute
+  EventsRoute: typeof EventsRoute
+  KorimaRoute: typeof KorimaRoute
+  Mdx5Route: typeof Mdx5Route
+  NexusRoute: typeof NexusRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/nexus': {
+      id: '/nexus'
+      path: '/nexus'
+      fullPath: '/nexus'
+      preLoaderRoute: typeof NexusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mdx5': {
+      id: '/mdx5'
+      path: '/mdx5'
+      fullPath: '/mdx5'
+      preLoaderRoute: typeof Mdx5RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/korima': {
+      id: '/korima'
+      path: '/korima'
+      fullPath: '/korima'
+      preLoaderRoute: typeof KorimaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/eoct': {
+      id: '/eoct'
+      path: '/eoct'
+      fullPath: '/eoct'
+      preLoaderRoute: typeof EoctRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/console': {
+      id: '/console'
+      path: '/console'
+      fullPath: '/console'
+      preLoaderRoute: typeof ConsoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atlas': {
+      id: '/atlas'
+      path: '/atlas'
+      fullPath: '/atlas'
+      preLoaderRoute: typeof AtlasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +244,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs/$slug': {
+      id: '/docs/$slug'
+      path: '/$slug'
+      fullPath: '/docs/$slug'
+      preLoaderRoute: typeof DocsSlugRouteImport
+      parentRoute: typeof DocsRoute
+    }
   }
 }
 
+interface DocsRouteChildren {
+  DocsSlugRoute: typeof DocsSlugRoute
+}
+
+const DocsRouteChildren: DocsRouteChildren = {
+  DocsSlugRoute: DocsSlugRoute,
+}
+
+const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AtlasRoute: AtlasRoute,
+  AuthRoute: AuthRoute,
+  ConsoleRoute: ConsoleRoute,
+  DocsRoute: DocsRouteWithChildren,
+  EoctRoute: EoctRoute,
+  EventsRoute: EventsRoute,
+  KorimaRoute: KorimaRoute,
+  Mdx5Route: Mdx5Route,
+  NexusRoute: NexusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
