@@ -21,6 +21,8 @@ import { Route as AtlasRouteImport } from './routes/atlas'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CspIndexRouteImport } from './routes/csp.index'
 import { Route as DocsSlugRouteImport } from './routes/docs.$slug'
+import { Route as CspIngestionRouteImport } from './routes/csp.ingestion'
+import { Route as CspCanonRouteImport } from './routes/csp.canon'
 
 const NexusRoute = NexusRouteImport.update({
   id: '/nexus',
@@ -82,6 +84,16 @@ const DocsSlugRoute = DocsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => DocsRoute,
 } as any)
+const CspIngestionRoute = CspIngestionRouteImport.update({
+  id: '/csp/ingestion',
+  path: '/csp/ingestion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CspCanonRoute = CspCanonRouteImport.update({
+  id: '/csp/canon',
+  path: '/csp/canon',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -94,6 +106,8 @@ export interface FileRoutesByFullPath {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/csp/canon': typeof CspCanonRoute
+  '/csp/ingestion': typeof CspIngestionRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/csp/': typeof CspIndexRoute
 }
@@ -108,6 +122,8 @@ export interface FileRoutesByTo {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/csp/canon': typeof CspCanonRoute
+  '/csp/ingestion': typeof CspIngestionRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/csp': typeof CspIndexRoute
 }
@@ -123,6 +139,8 @@ export interface FileRoutesById {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/csp/canon': typeof CspCanonRoute
+  '/csp/ingestion': typeof CspIngestionRoute
   '/docs/$slug': typeof DocsSlugRoute
   '/csp/': typeof CspIndexRoute
 }
@@ -139,6 +157,8 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/csp/canon'
+    | '/csp/ingestion'
     | '/docs/$slug'
     | '/csp/'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +173,8 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/csp/canon'
+    | '/csp/ingestion'
     | '/docs/$slug'
     | '/csp'
   id:
@@ -167,6 +189,8 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/csp/canon'
+    | '/csp/ingestion'
     | '/docs/$slug'
     | '/csp/'
   fileRoutesById: FileRoutesById
@@ -182,6 +206,8 @@ export interface RootRouteChildren {
   KorimaRoute: typeof KorimaRoute
   Mdx5Route: typeof Mdx5Route
   NexusRoute: typeof NexusRoute
+  CspCanonRoute: typeof CspCanonRoute
+  CspIngestionRoute: typeof CspIngestionRoute
   CspIndexRoute: typeof CspIndexRoute
 }
 
@@ -271,6 +297,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsSlugRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/csp/ingestion': {
+      id: '/csp/ingestion'
+      path: '/csp/ingestion'
+      fullPath: '/csp/ingestion'
+      preLoaderRoute: typeof CspIngestionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/csp/canon': {
+      id: '/csp/canon'
+      path: '/csp/canon'
+      fullPath: '/csp/canon'
+      preLoaderRoute: typeof CspCanonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -295,6 +335,8 @@ const rootRouteChildren: RootRouteChildren = {
   KorimaRoute: KorimaRoute,
   Mdx5Route: Mdx5Route,
   NexusRoute: NexusRoute,
+  CspCanonRoute: CspCanonRoute,
+  CspIngestionRoute: CspIngestionRoute,
   CspIndexRoute: CspIndexRoute,
 }
 export const routeTree = rootRouteImport
