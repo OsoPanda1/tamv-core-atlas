@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   Workflow,
 } from "lucide-react";
+import { Atom, Database, Layers, PackageCheck } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,14 @@ const PRIMARY: NavItem[] = [
   { to: "/console", label: "Heptafederated Console", icon: Network, badge: "7" },
   { to: "/nexus", label: "Nexus Graph", icon: GitBranch },
   { to: "/atlas", label: "Atlas / Digital Twin", icon: Globe2 },
+];
+
+const ATLAS_CORE: NavItem[] = [
+  { to: "/csp", label: "Atlas Core · CSP-α", icon: Atom, badge: "α" },
+  { to: "/csp/ingestion", label: "Ingestion Engine", icon: Layers },
+  { to: "/csp/canon", label: "Canon Registry", icon: Database },
+  { to: "/csp/ontology", label: "Ontological Graph", icon: GitBranch },
+  { to: "/csp/assembly", label: "Self-Assembly", icon: PackageCheck },
 ];
 
 const RUNTIME: NavItem[] = [
@@ -97,6 +106,7 @@ function Sidebar() {
       </div>
       <div className="flex-1 overflow-y-auto px-3 py-5">
         <NavGroup title="Sovereign Surface" items={PRIMARY} />
+        <NavGroup title="Atlas Core™ · CSP-α" items={ATLAS_CORE} />
         <NavGroup title="Constitutional Runtime" items={RUNTIME} />
         <NavGroup title="Knowledge & Identity" items={KNOWLEDGE} />
       </div>
