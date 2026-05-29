@@ -19,7 +19,12 @@ import { Route as ConsoleRouteImport } from './routes/console'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AtlasRouteImport } from './routes/atlas'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CspIndexRouteImport } from './routes/csp.index'
 import { Route as DocsSlugRouteImport } from './routes/docs.$slug'
+import { Route as CspOntologyRouteImport } from './routes/csp.ontology'
+import { Route as CspIngestionRouteImport } from './routes/csp.ingestion'
+import { Route as CspCanonRouteImport } from './routes/csp.canon'
+import { Route as CspAssemblyRouteImport } from './routes/csp.assembly'
 
 const NexusRoute = NexusRouteImport.update({
   id: '/nexus',
@@ -71,10 +76,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CspIndexRoute = CspIndexRouteImport.update({
+  id: '/csp/',
+  path: '/csp/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocsSlugRoute = DocsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => DocsRoute,
+} as any)
+const CspOntologyRoute = CspOntologyRouteImport.update({
+  id: '/csp/ontology',
+  path: '/csp/ontology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CspIngestionRoute = CspIngestionRouteImport.update({
+  id: '/csp/ingestion',
+  path: '/csp/ingestion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CspCanonRoute = CspCanonRouteImport.update({
+  id: '/csp/canon',
+  path: '/csp/canon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CspAssemblyRoute = CspAssemblyRouteImport.update({
+  id: '/csp/assembly',
+  path: '/csp/assembly',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -88,7 +118,12 @@ export interface FileRoutesByFullPath {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/csp/assembly': typeof CspAssemblyRoute
+  '/csp/canon': typeof CspCanonRoute
+  '/csp/ingestion': typeof CspIngestionRoute
+  '/csp/ontology': typeof CspOntologyRoute
   '/docs/$slug': typeof DocsSlugRoute
+  '/csp/': typeof CspIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -101,7 +136,12 @@ export interface FileRoutesByTo {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/csp/assembly': typeof CspAssemblyRoute
+  '/csp/canon': typeof CspCanonRoute
+  '/csp/ingestion': typeof CspIngestionRoute
+  '/csp/ontology': typeof CspOntologyRoute
   '/docs/$slug': typeof DocsSlugRoute
+  '/csp': typeof CspIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -115,7 +155,12 @@ export interface FileRoutesById {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/csp/assembly': typeof CspAssemblyRoute
+  '/csp/canon': typeof CspCanonRoute
+  '/csp/ingestion': typeof CspIngestionRoute
+  '/csp/ontology': typeof CspOntologyRoute
   '/docs/$slug': typeof DocsSlugRoute
+  '/csp/': typeof CspIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -130,7 +175,12 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/csp/assembly'
+    | '/csp/canon'
+    | '/csp/ingestion'
+    | '/csp/ontology'
     | '/docs/$slug'
+    | '/csp/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -143,7 +193,12 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/csp/assembly'
+    | '/csp/canon'
+    | '/csp/ingestion'
+    | '/csp/ontology'
     | '/docs/$slug'
+    | '/csp'
   id:
     | '__root__'
     | '/'
@@ -156,7 +211,12 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/csp/assembly'
+    | '/csp/canon'
+    | '/csp/ingestion'
+    | '/csp/ontology'
     | '/docs/$slug'
+    | '/csp/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -170,6 +230,11 @@ export interface RootRouteChildren {
   KorimaRoute: typeof KorimaRoute
   Mdx5Route: typeof Mdx5Route
   NexusRoute: typeof NexusRoute
+  CspAssemblyRoute: typeof CspAssemblyRoute
+  CspCanonRoute: typeof CspCanonRoute
+  CspIngestionRoute: typeof CspIngestionRoute
+  CspOntologyRoute: typeof CspOntologyRoute
+  CspIndexRoute: typeof CspIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -244,12 +309,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/csp/': {
+      id: '/csp/'
+      path: '/csp'
+      fullPath: '/csp/'
+      preLoaderRoute: typeof CspIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/docs/$slug': {
       id: '/docs/$slug'
       path: '/$slug'
       fullPath: '/docs/$slug'
       preLoaderRoute: typeof DocsSlugRouteImport
       parentRoute: typeof DocsRoute
+    }
+    '/csp/ontology': {
+      id: '/csp/ontology'
+      path: '/csp/ontology'
+      fullPath: '/csp/ontology'
+      preLoaderRoute: typeof CspOntologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/csp/ingestion': {
+      id: '/csp/ingestion'
+      path: '/csp/ingestion'
+      fullPath: '/csp/ingestion'
+      preLoaderRoute: typeof CspIngestionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/csp/canon': {
+      id: '/csp/canon'
+      path: '/csp/canon'
+      fullPath: '/csp/canon'
+      preLoaderRoute: typeof CspCanonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/csp/assembly': {
+      id: '/csp/assembly'
+      path: '/csp/assembly'
+      fullPath: '/csp/assembly'
+      preLoaderRoute: typeof CspAssemblyRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -275,6 +375,11 @@ const rootRouteChildren: RootRouteChildren = {
   KorimaRoute: KorimaRoute,
   Mdx5Route: Mdx5Route,
   NexusRoute: NexusRoute,
+  CspAssemblyRoute: CspAssemblyRoute,
+  CspCanonRoute: CspCanonRoute,
+  CspIngestionRoute: CspIngestionRoute,
+  CspOntologyRoute: CspOntologyRoute,
+  CspIndexRoute: CspIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
