@@ -1,0 +1,41 @@
+name: Ingest Atlas
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atlas-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GITHUB_TOKEN: ${{ secrets.ATLAS_READ_TOKEN }}
+      GITHUB_OWNER: ${{ vars.GITHUB_OWNER }}
+      INCLUDE_FORKS: "false"
+      MAX_REPOS: "500"
+      CONCURRENCY: "6"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - run: npm ci
+      - run: npm audit --audit-level=high || true
+      - run: npm run build
+      - run: npm run validate
+      - name: Commit atlas updates
+        run: |
+          git config user.name  "atlas-bot"
+          git config user.email "atlas-bot@users.noreply.github.com"
+          git add atlas/
+          git diff --staged --quiet || git commit -m "chore(atlas): scheduled ingest"
+          git push

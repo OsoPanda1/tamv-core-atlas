@@ -1,0 +1,20 @@
+# {{name}}
+
+- URL: {{url}}
+- Category: **{{category}}**
+- Confidence: {{classification.confidence}}
+
+## Purpose
+
+{{purpose}}
+
+## Tags
+
+{{#each tags}}- {{this}}
+{{/each}}
+
+## Stack
+
+- Languages: {{#each stack.languages}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+- Frameworks: {{#each stack.frameworks}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+- Tools: {{#each stack.tools}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}

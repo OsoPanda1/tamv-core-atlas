@@ -1,0 +1,27 @@
+name: Publish Atlas
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run publish
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atlas
+          path: atlas/
+          retention-days: 30
