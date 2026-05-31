@@ -1,0 +1,38 @@
+{
+  "name": "tamv-core-atlas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Atlas vivo para absorber, clasificar y conectar los 224+ repos del ecosistema TAMV / OsoPanda1.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "discover": "tsx ingestion/discover.ts",
+    "fetch": "tsx ingestion/fetch.ts",
+    "extract": "tsx ingestion/extract.ts",
+    "normalize": "tsx ingestion/normalize.ts",
+    "classify": "tsx ingestion/classify.ts",
+    "relate": "tsx ingestion/relate.ts",
+    "publish": "tsx ingestion/publish.ts",
+    "redact": "tsx ingestion/redact.ts",
+    "build": "npm run discover && npm run fetch && npm run extract && npm run normalize && npm run classify && npm run relate && npm run redact && npm run publish",
+    "validate": "tsx ingestion/publish.ts --validate",
+    "security:scan": "tsx ingestion/redact.ts"
+  },
+  "dependencies": {
+    "@octokit/rest": "^21.0.2",
+    "gray-matter": "^4.0.3",
+    "handlebars": "^4.7.8",
+    "js-yaml": "^4.1.0",
+    "marked": "^14.1.2",
+    "p-limit": "^6.2.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.3"
+  }
+}

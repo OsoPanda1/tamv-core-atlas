@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.cache/
+.tmp/
+*.log
+.env
+.env.*
+!.env.example
+repos.cache.json
+atlas/repos/**/evidence/raw/
