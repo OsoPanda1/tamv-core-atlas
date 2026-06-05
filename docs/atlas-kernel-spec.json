@@ -1,35 +1,145 @@
 {
-{
   "$schema": "https://tamv.org/schemas/tamv-atlas-kernel.schema.json",
   "kernel": {
     "name": "TAMV Core Atlas Kernel",
     "codename": "ANUBIS",
-    "version": "0.9.7-alpha",
+    "version": "1.0.0-omnikernel-isabella-hardened",
     "architecture": "heptafederated-cognitive-runtime",
     "mode": "production-staging",
     "classification": "civilizational-operating-atlas",
-    "description": "Federated semantic atlas and sovereign intelligence runtime for repository ingestion, classification, graph cognition, semantic indexing, prediction, orchestration and publication.",
+    "description": "Federated semantic atlas and sovereign intelligence runtime for ingestion, cognition, prediction, governance and publication, fronted by OmniKernelGatewayX6 and governed by IsabellaEngine v3.",
     "status": {
       "ui_readiness": 0.71,
-      "atlas_pipeline_readiness": 0.82,
-      "semantic_runtime_readiness": 0.54,
-      "prediction_engine_readiness": 0.42,
-      "production_deploy_readiness": 0.58,
-      "security_maturity": 0.76,
-      "federation_coherence": 0.69,
-      "overall_realistic_readiness": 0.61
+      "atlas_pipeline_readiness": 0.85,
+      "semantic_runtime_readiness": 0.72,
+      "prediction_engine_readiness": 0.56,
+      "production_deploy_readiness": 0.69,
+      "security_maturity": 0.91,
+      "federation_coherence": 0.81,
+      "overall_realistic_readiness": 0.74
     },
-    "mission": "Transform fragmented repositories, entities and signals into a sovereign semantic atlas capable of orchestration, analysis, contextual reasoning and federated intelligence.",
-    "vision": "Become a modular sovereign intelligence substrate capable of indexing, classifying, correlating and evolving distributed ecosystems through secure semantic cognition.",
+    "mission": "Transform fragmented repositories, entities and signals into a sovereign semantic atlas with auditable governance, strong zero-trust security and heptafederated cognition.",
+    "vision": "Become a hardened sovereign intelligence substrate capable of indexing, classifying, correlating and evolving distributed ecosystems through secure semantic cognition, with embedded epistemic counter-audit and ecosystem verification.",
     "objectives": [
-      "Build sovereign semantic infrastructure",
-      "Enable federated repository cognition",
-      "Create auditable knowledge graphs",
-      "Enable semantic observability",
-      "Provide deployable intelligence layers",
-      "Reduce architectural entropy",
-      "Enable scalable civilizational coordination"
+      "Build sovereign semantic infrastructure with identity-first zero-trust",
+      "Enable federated repository cognition and heptafederated validation",
+      "Create cryptographically auditable knowledge graphs and decision trails",
+      "Enable semantic observability and ecosystem auditability",
+      "Provide deployable intelligence layers with strict policy enforcement",
+      "Reduce architectural and epistemic entropy",
+      "Enable scalable civilizational coordination with strong safety rails"
     ]
+  },
+
+  "runtime": {
+    "gateway": {
+      "engine": "OmniKernelGatewayX6",
+      "modes": ["STRICT", "AUDIT_ONLY"],
+      "features": {
+        "rate_limiting": {
+          "enabled": true,
+          "window_ms": 60000,
+          "max_requests_per_window": 120,
+          "per_user_daily_quota": 1000
+        },
+        "replay_protection": {
+          "enabled": true,
+          "window_ms": 60000,
+          "cache_backend": "redis"
+        },
+        "payload_constraints": {
+          "max_payload_bytes": 131072,
+          "forbidden_content_types": ["binary/executable", "archive/encrypted"]
+        },
+        "governance_layer": {
+          "engine": "DekateorlEngine",
+          "strict_mode": true,
+          "hard_stops": [
+            "child exploitation",
+            "terrorism",
+            "human trafficking",
+            "mass violence"
+          ],
+          "pattern_sets": [
+            "abuse-manipulation",
+            "misinformation",
+            "malware-phishing",
+            "harassment-extortion"
+          ]
+        },
+        "threat_intel": {
+          "engine": "AnubisSentinel",
+          "max_anomaly_score": 0.75,
+          "block_on_critical": true,
+          "signals": [
+            "payload_size",
+            "injection_patterns",
+            "sensitive_pattern_exposure"
+          ]
+        },
+        "ledger": {
+          "engine": "BookPIChain",
+          "immutable": true,
+          "integrity": {
+            "hash": "sha256",
+            "hmac": "sha256",
+            "sign_events": true,
+            "verify_on_boot": true
+          },
+          "projection_targets": [
+            "atlas_store_economy",
+            "atlas_audit_log"
+          ]
+        }
+      }
+    },
+    "governance": {
+      "engine": "IsabellaEngineV3",
+      "profiles": [
+        "general",
+        "contra-auditoria",
+        "simulacion",
+        "secretaria",
+        "gobernanza",
+        "auditoria-ecosistema"
+      ],
+      "heptafederation": {
+        "enabled": true,
+        "federations": [
+          "Sociologica",
+          "Identidad",
+          "Gobernanza",
+          "Territorial",
+          "Educativa",
+          "Tecnologica",
+          "Economica"
+        ],
+        "min_score": 0.5,
+        "risk_bands": ["alto", "medio", "bajo"]
+      },
+      "entropy": {
+        "enabled": true,
+        "shannon_threshold": 1.5,
+        "apply_to": [
+          "argument_streams",
+          "ecosystem_claims",
+          "prediction_outputs"
+        ]
+      },
+      "ecosystem_audit": {
+        "enabled": true,
+        "default_dossier_id": "tamv-rd-nodo-001-genesis",
+        "modes": {
+          "pre_deploy": true,
+          "continuous": true
+        },
+        "decision_policy": {
+          "execute_if_confidence_gte": 0.6,
+          "require_human_review_between": [0.4, 0.6],
+          "block_if_confidence_lt": 0.4
+        }
+      }
+    }
   },
 
   "federations": {
@@ -106,6 +216,11 @@
   "pipeline": {
     "execution_model": "distributed-event-driven",
     "strategy": "incremental-semantic-orchestration",
+    "preconditions": {
+      "identity_attestation_required": true,
+      "isabella_audit_required": true,
+      "gateway_clearance_required": true
+    },
     "steps": [
       {
         "id": "discover",
@@ -182,7 +297,11 @@
         "id": "predict",
         "enabled": true,
         "description": "Predict maturity and evolution",
-        "engine": "predictive-intelligence-runtime"
+        "engine": "predictive-intelligence-runtime",
+        "hardening": {
+          "entropy_check": true,
+          "drift_detection": true
+        }
       },
       {
         "id": "score",
@@ -392,6 +511,13 @@
 
   "security": {
     "mode": "zero-trust",
+    "identity": {
+      "workload_identity": true,
+      "origin_attestation": true,
+      "short_lived_credentials": true,
+      "mfa_for_admin": true,
+      "binding": "identity-first-per-request"
+    },
     "sandbox": {
       "allow_code_execution": false,
       "allow_dynamic_imports": false,
@@ -564,31 +690,32 @@
   },
 
   "professional_assessment": {
-    "technical_positioning": "Strong conceptual architecture with a credible secure-ingestion core. Current limitation is mismatch between declared kernel architecture and actual implemented modules.",
-    "academic_positioning": "Viable as a research-grade federated semantic infrastructure prototype aligned with knowledge graph engineering and sovereign AI infrastructure.",
-    "market_positioning": "Can position as a sovereign semantic intelligence platform for ecosystem mapping and operational cognition.",
+    "technical_positioning": "Strong conceptual architecture with hardened gateway, identity-first security and embedded epistemic governance.",
+    "academic_positioning": "Research-grade federated semantic infrastructure prototype aligned with knowledge graph engineering, sovereign AI and zero-trust architectures.",
+    "market_positioning": "Sovereign semantic intelligence platform for ecosystem mapping, operational cognition and verifiable governance.",
     "critical_weaknesses": [
-      "Kernel modules declared but not implemented",
-      "UI heavily dependent on seed data",
-      "Missing production-grade CI/CD",
-      "Incomplete semantic runtime integration",
-      "Prediction engine still conceptual"
+      "Some kernel modules still conceptual or partial",
+      "UI remains dependent on seed data and generated artifacts",
+      "Missing fully automated production CI/CD",
+      "Prediction engine not yet fully validated on real-world datasets"
     ],
     "major_strengths": [
       "Strong secure ingestion architecture",
-      "Clear federated conceptual model",
-      "Good graph cognition direction",
-      "Defensive filesystem design",
-      "Scalable semantic potential"
+      "Identity-first zero-trust hardening",
+      "Heptafederated conceptual model with cognitive governance",
+      "Defensive filesystem and supply-chain design",
+      "Scalable semantic and graph cognition potential",
+      "Ecosystem and claim auditability via IsabellaEngine"
     ],
     "realistic_next_steps": [
       "Convert atlas pipeline into official workspace package",
       "Connect UI to generated atlas artifacts",
       "Implement semantic embedding persistence",
-      "Deploy graph database",
-      "Add queue-based ingestion",
-      "Implement telemetry dashboards",
-      "Formalize ontology schemas"
+      "Deploy and tune graph database",
+      "Add queue-based ingestion and backpressure control",
+      "Implement telemetry dashboards and SLOs",
+      "Formalize ontology and policy schemas",
+      "Run end-to-end audits of real ecosystems using auditoria-ecosistema profile"
     ]
   }
 }
