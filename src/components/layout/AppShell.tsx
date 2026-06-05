@@ -1,3 +1,4 @@
+import type { ReactNode } from "@react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Activity,
@@ -14,12 +15,21 @@ import {
   Radar,
   ShieldCheck,
   Workflow,
+  Atom,
+  Database,
+  Layers,
+  PackageCheck,
 } from "lucide-react";
-import { Atom, Database, Layers, PackageCheck } from "lucide-react";
-import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; badge?: string };
+type IconType = typeof LayoutDashboard;
+
+type NavItem = {
+  to: string;
+  label: string;
+  icon: IconType;
+  badge?: string;
+};
 
 const PRIMARY: NavItem[] = [
   { to: "/", label: "Kodex Home", icon: LayoutDashboard },
@@ -50,37 +60,49 @@ const KNOWLEDGE: NavItem[] = [
   { to: "/auth", label: "Identity Layer", icon: Fingerprint },
 ];
 
-function NavGroup({ title, items }: { title: string; items: NavItem[] }) {
+type NavGroupProps = {
+  title: string;
+  items: NavItem[];
+};
+
+function isActivePath(currentPath: string, target: string): boolean {
+  if (target === "/") return currentPath === "/";
+  return currentPath === target || currentPath.startsWith(`${target}/`);
+}
+
+function NavGroup({ title, items }: NavGroupProps) {
   const { location } = useRouterState();
+  const currentPath = location.pathname;
+
   return (
-    <div className="mb-6">
-      <div className="mono px-3 text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70 mb-2">
+    <section className="mb-6" aria-label={title}>
+      <div className="mono mb-2 px-3 text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">
         {title}
       </div>
       <nav className="flex flex-col gap-px">
         {items.map((item) => {
-          const active =
-            item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
+          const active = isActivePath(currentPath, item.to);
           const Icon = item.icon;
           return (
             <Link
               key={item.to}
               to={item.to}
+              aria-current={active ? "page" : undefined}
               className={cn(
                 "group flex items-center gap-3 rounded-sm px-3 py-2 text-sm transition-colors",
-                "text-sidebar-foreground/75 hover:text-sidebar-foreground hover:bg-sidebar-accent",
+                "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-foreground",
                 active && "bg-sidebar-accent text-sidebar-foreground",
               )}
             >
               <Icon
                 className={cn(
                   "h-4 w-4 shrink-0 opacity-70 group-hover:opacity-100",
-                  active && "opacity-100 text-primary",
+                  active && "text-primary opacity-100",
                 )}
               />
               <span className="flex-1 truncate">{item.label}</span>
               {item.badge && (
-                <span className="mono text-[10px] uppercase tracking-wider rounded-sm bg-muted px-1.5 py-0.5 text-muted-foreground">
+                <span className="mono rounded-sm bg-muted px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
                   {item.badge}
                 </span>
               )}
@@ -88,18 +110,21 @@ function NavGroup({ title, items }: { title: string; items: NavItem[] }) {
           );
         })}
       </nav>
-    </div>
+    </section>
   );
 }
 
 function Sidebar() {
   return (
-    <aside className="hidden md:flex w-[268px] shrink-0 flex-col border-r border-sidebar-border bg-sidebar/90 backdrop-blur">
-      <div className="px-5 pt-5 pb-6 border-b border-sidebar-border">
-        <Link to="/" className="flex items-start gap-3">
-          <div className="relative h-9 w-9 rounded-sm border border-sidebar-border bg-gradient-to-br from-primary/30 to-accent/20 flex items-center justify-center">
+    <aside
+      className="hidden w-[268px] shrink-0 flex-col border-r border-sidebar-border bg-sidebar/90 backdrop-blur md:flex"
+      aria-label="Primary navigation"
+    >
+      <div className="border-b border-sidebar-border px-5 pb-6 pt-5">
+        <Link to="/" className="flex items-start gap-3" aria-label="TAMV Core Kodex home">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-sm border border-sidebar-border bg-gradient-to-br from-primary/30 to-accent/20">
             <Boxes className="h-4 w-4 text-foreground" />
-            <span className="absolute -bottom-1 -right-1 h-2 w-2 rounded-full bg-success animate-pulse" />
+            <span className="absolute -bottom-1 -right-1 h-2 w-2 animate-pulse rounded-full bg-success" />
           </div>
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold tracking-tight">TAMV Core Kodex</span>
@@ -115,8 +140,8 @@ function Sidebar() {
         <NavGroup title="Constitutional Runtime" items={RUNTIME} />
         <NavGroup title="Knowledge & Identity" items={KNOWLEDGE} />
       </div>
-      <div className="border-t border-sidebar-border px-5 py-4">
-        <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+      <div className="border-t border-sidebar-border px-5 py-4 text-[11px] text-muted-foreground">
+        <div className="flex items-center gap-2">
           <CircleDot className="h-3 w-3 text-success" />
           <span className="mono uppercase tracking-wider">All federations operational</span>
         </div>
@@ -130,52 +155,69 @@ function Sidebar() {
 
 function TopBar() {
   const { location } = useRouterState();
+  const path = location.pathname;
+
   const crumbs =
-    location.pathname === "/"
-      ? ["Kodex", "Home"]
-      : ["Kodex", ...location.pathname.split("/").filter(Boolean)];
+    path === "/" ? ["Kodex", "Home"] : ["Kodex", ...path.split("/").filter(Boolean)];
+
   return (
-    <header className="sticky top-0 z-30 flex h-12 items-center justify-between gap-4 border-b border-border bg-background/80 backdrop-blur px-5">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        {crumbs.map((c, i) => (
-          <span key={i} className="flex items-center gap-2">
-            <span
-              className={cn(
-                "mono uppercase tracking-wider",
-                i === crumbs.length - 1 && "text-foreground",
-              )}
-            >
-              {c}
+    <header
+      className="sticky top-0 z-30 flex h-12 items-center justify-between gap-4 border-b border-border bg-background/80 px-5 backdrop-blur"
+      aria-label="Global status bar"
+    >
+      <nav
+        aria-label="Breadcrumb"
+        className="flex items-center gap-2 text-xs text-muted-foreground"
+      >
+        {crumbs.map((crumb, index) => {
+          const isLast = index === crumbs.length - 1;
+          return (
+            <span key={index} className="flex items-center gap-2">
+              <span
+                className={cn(
+                  "mono uppercase tracking-wider",
+                  isLast && "text-foreground",
+                )}
+              >
+                {crumb}
+              </span>
+              {!isLast && <span className="opacity-40">/</span>}
             </span>
-            {i < crumbs.length - 1 && <span className="opacity-40">/</span>}
-          </span>
-        ))}
-      </div>
+          );
+        })}
+      </nav>
       <div className="flex items-center gap-3 text-xs">
-        <div className="hidden md:flex items-center gap-2 rounded-sm border border-border bg-card px-2.5 py-1 mono text-[11px] text-muted-foreground">
+        <div className="mono hidden items-center gap-2 rounded-sm border border-border bg-card px-2.5 py-1 text-[11px] text-muted-foreground md:flex">
           <Radar className="h-3 w-3 text-success" />
           <span>HORUS · ANUBIS · OJO DE RA</span>
         </div>
-        <div className="hidden lg:flex items-center gap-2 rounded-sm border border-border bg-card px-2.5 py-1 mono text-[11px] text-muted-foreground tabular">
+        <div className="mono hidden items-center gap-2 rounded-sm border border-border bg-card px-2.5 py-1 text-[11px] text-muted-foreground tabular lg:flex">
           <FileText className="h-3 w-3" />
-          DOI 10.5281/zenodo.19436662
+          <span>DOI 10.5281/zenodo.19436662</span>
         </div>
-        <div className="flex items-center gap-2 rounded-sm border border-border bg-card px-2.5 py-1 mono text-[11px] text-muted-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-          LIVE
+        <div className="mono flex items-center gap-2 rounded-sm border border-border bg-card px-2.5 py-1 text-[11px] text-muted-foreground">
+          <span
+            className="h-1.5 w-1.5 animate-pulse rounded-full bg-success"
+            aria-hidden="true"
+          />
+          <span aria-label="live status">LIVE</span>
         </div>
       </div>
     </header>
   );
 }
 
-export function AppShell({ children }: { children: ReactNode }) {
+type AppShellProps = {
+  children: ReactNode;
+};
+
+export function AppShell({ children }: AppShellProps) {
   return (
     <div className="flex min-h-screen bg-background text-foreground">
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar />
-        <main className="flex-1 min-w-0">{children}</main>
+        <main className="min-w-0 flex-1">{children}</main>
       </div>
     </div>
   );
