@@ -45,6 +45,7 @@ const RUNTIME: NavItem[] = [
 
 const KNOWLEDGE: NavItem[] = [
   { to: "/docs", label: "Documentation OS", icon: BookOpen },
+  { to: "/wikis", label: "Wikis Canónicas", icon: BookOpen, badge: "5" },
   { to: "/auth", label: "Identity Layer", icon: Fingerprint },
 ];
 
