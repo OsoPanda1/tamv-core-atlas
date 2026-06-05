@@ -9,14 +9,14 @@
     "classification": "civilizational-operating-atlas",
     "description": "Federated semantic atlas and sovereign intelligence runtime for ingestion, cognition, prediction, governance and publication, fronted by OmniKernelGatewayX6 and governed by IsabellaEngine v3.",
     "status": {
-      "ui_readiness": 0.71,
-      "atlas_pipeline_readiness": 0.85,
-      "semantic_runtime_readiness": 0.72,
-      "prediction_engine_readiness": 0.56,
-      "production_deploy_readiness": 0.69,
-      "security_maturity": 0.91,
-      "federation_coherence": 0.81,
-      "overall_realistic_readiness": 0.74
+      "ui_readiness": 0.68,
+      "atlas_pipeline_readiness": 0.82,
+      "semantic_runtime_readiness": 0.6,
+      "prediction_engine_readiness": 0.42,
+      "production_deploy_readiness": 0.55,
+      "security_maturity": 0.88,
+      "federation_coherence": 0.78,
+      "overall_realistic_readiness": 0.62
     },
     "mission": "Transform fragmented repositories, entities and signals into a sovereign semantic atlas with auditable governance, strong zero-trust security and heptafederated cognition.",
     "vision": "Become a hardened sovereign intelligence substrate capable of indexing, classifying, correlating and evolving distributed ecosystems through secure semantic cognition, with embedded epistemic counter-audit and ecosystem verification.",
@@ -49,7 +49,10 @@
         },
         "payload_constraints": {
           "max_payload_bytes": 131072,
-          "forbidden_content_types": ["binary/executable", "archive/encrypted"]
+          "forbidden_content_types": [
+            "binary/executable",
+            "archive/encrypted"
+          ]
         },
         "governance_layer": {
           "engine": "DekateorlEngine",
@@ -470,11 +473,11 @@
       "fallback": "json-graph"
     },
     "edge_weighting": {
-      "semantic_similarity": 0.40,
-      "shared_dependencies": 0.20,
-      "shared_taxonomy": 0.20,
-      "federation_affinity": 0.10,
-      "historical_interaction": 0.10
+      "semantic_similarity": 0.4,
+      "shared_dependencies": 0.2,
+      "shared_taxonomy": 0.2,
+      "federation_affinity": 0.1,
+      "historical_interaction": 0.1
     },
     "graph_features": {
       "causal_edges": true,
@@ -591,7 +594,7 @@
     ],
     "recommended_stack": {
       "frontend": "vite-tanstack-start",
-      "backend": "node-tsx",
+      "backend": "bun-node-tsx",
       "database": "postgresql-pgvector",
       "graph": "neo4j",
       "vectors": "qdrant",
@@ -615,15 +618,15 @@
         "scripts/observability.mjs"
       ],
       "replace_with": {
-        "atlas:discover": "npm --workspace tamv-core-atlas run discover",
-        "atlas:build": "npm --workspace tamv-core-atlas run build",
-        "atlas:validate": "npm --workspace tamv-core-atlas run validate"
+        "atlas:discover": "bun run discover",
+        "atlas:build": "bun run build",
+        "atlas:validate": "bun run validate"
       }
     },
     "workspace": {
       "enabled": true,
-      "manager": "pnpm",
-      "file": "pnpm-workspace.yaml"
+      "manager": "bun",
+      "file": "bunfig.toml"
     },
     "ui_patch": {
       "nexus_graph": {
