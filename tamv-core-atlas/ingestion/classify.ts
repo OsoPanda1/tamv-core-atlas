@@ -9,7 +9,11 @@ type Rule = { category: string; re: RegExp; weight: number };
 
 const RULES: Rule[] = [
   { category: "frontend", re: /\b(react|next|vite|vue|svelte|astro|tailwind)\b/i, weight: 2 },
-  { category: "backend", re: /\b(express|fastify|nestjs|hapi|postgres|prisma|drizzle)\b/i, weight: 2 },
+  {
+    category: "backend",
+    re: /\b(express|fastify|nestjs|hapi|postgres|prisma|drizzle)\b/i,
+    weight: 2,
+  },
   { category: "ai", re: /\b(llm|openai|anthropic|embedding|qdrant|pinecone|rag)\b/i, weight: 3 },
   { category: "cli", re: /\b(commander|oclif|yargs|bin)\b/i, weight: 2 },
   { category: "infra", re: /\b(docker|kubernetes|terraform|ansible|helm|nginx)\b/i, weight: 2 },
@@ -28,7 +32,8 @@ function classify(text: string): { category: string; confidence: number; reasons
       reasons.push(`matched /${rule.re.source}/ → ${rule.category}`);
     }
   }
-  if (scores.size === 0) return { category: "experiment", confidence: 0.3, reasons: ["no rule matched"] };
+  if (scores.size === 0)
+    return { category: "experiment", confidence: 0.3, reasons: ["no rule matched"] };
   const [best] = [...scores.entries()].sort((a, b) => b[1] - a[1]);
   const total = [...scores.values()].reduce((a, b) => a + b, 0);
   const confidence = Math.min(0.95, 0.4 + (best![1] / total) * 0.55);
@@ -60,12 +65,10 @@ async function main() {
       await audit("classify.error", { slug: d.name, error: String(err) });
     }
   }
-  // eslint-disable-next-line no-console
   console.log("classification complete");
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

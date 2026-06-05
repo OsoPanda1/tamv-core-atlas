@@ -59,14 +59,12 @@ async function main() {
       await audit("redact.applied", { file, hits });
     }
   }
-  // eslint-disable-next-line no-console
   console.log(`redaction complete (${total} matches across ${files.length} files)`);
   if (process.argv.includes("--validate") && total > 0) process.exit(2);
 }
 
 main().catch(async (err) => {
   await audit("redact.fatal", { error: String(err) });
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

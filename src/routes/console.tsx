@@ -9,7 +9,11 @@ export const Route = createFileRoute("/console")({
   head: () => ({
     meta: [
       { title: "Heptafederated Console · TAMV Core Kodex" },
-      { name: "description", content: "Live console of the seven TAMV federations: science, infrastructure, cognition, governance, identity, economy and defense." },
+      {
+        name: "description",
+        content:
+          "Live console of the seven TAMV federations: science, infrastructure, cognition, governance, identity, economy and defense.",
+      },
       { property: "og:title", content: "Heptafederated Console · TAMV" },
       { property: "og:description", content: "Seven federations, one constitutional runtime." },
     ],
@@ -43,12 +47,19 @@ function ConsolePage() {
               )}
             >
               <div className="flex items-center justify-between">
-                <span className="mono text-[10px] uppercase tracking-wider" style={{ color: f.accent }}>{f.code}</span>
-                <span className={cn("h-1.5 w-1.5 rounded-full", {
-                  "bg-success": f.status === "operational",
-                  "bg-warning": f.status === "watch",
-                  "bg-destructive": f.status !== "operational" && f.status !== "watch",
-                })} />
+                <span
+                  className="mono text-[10px] uppercase tracking-wider"
+                  style={{ color: f.accent }}
+                >
+                  {f.code}
+                </span>
+                <span
+                  className={cn("h-1.5 w-1.5 rounded-full", {
+                    "bg-success": f.status === "operational",
+                    "bg-warning": f.status === "watch",
+                    "bg-destructive": f.status !== "operational" && f.status !== "watch",
+                  })}
+                />
               </div>
               <div className="mt-2 text-sm font-medium leading-tight">{f.name}</div>
               <div className="mt-2 mono text-[10px] uppercase tracking-wider text-muted-foreground tabular">
@@ -86,9 +97,13 @@ function ConsolePage() {
                   <li key={m.id} className="px-4 py-3">
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-sm truncate">{m.name}</span>
-                      <span className="mono text-[10px] uppercase tracking-wider text-muted-foreground">{m.kind}</span>
+                      <span className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                        {m.kind}
+                      </span>
                     </div>
-                    <div className="text-[11px] text-muted-foreground line-clamp-2">{m.description}</div>
+                    <div className="text-[11px] text-muted-foreground line-clamp-2">
+                      {m.description}
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -100,14 +115,26 @@ function ConsolePage() {
   );
 }
 
-function Metric({ label, value, suffix, tone }: { label: string; value: number | string; suffix?: string; tone?: "success" | "warning" }) {
+function Metric({
+  label,
+  value,
+  suffix,
+  tone,
+}: {
+  label: string;
+  value: number | string;
+  suffix?: string;
+  tone?: "success" | "warning";
+}) {
   return (
     <div className="rounded-sm border border-border bg-secondary/40 p-3">
       <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={cn("mt-1 text-xl font-medium tabular", {
-        "text-success": tone === "success",
-        "text-warning": tone === "warning",
-      })}>
+      <div
+        className={cn("mt-1 text-xl font-medium tabular", {
+          "text-success": tone === "success",
+          "text-warning": tone === "warning",
+        })}
+      >
         {value}
         {suffix && <span className="mono text-[10px] text-muted-foreground ml-1">{suffix}</span>}
       </div>

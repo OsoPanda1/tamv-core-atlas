@@ -70,9 +70,9 @@ function WikisIndex() {
       </div>
       <h1 className="mt-2 text-2xl font-semibold tracking-tight">Selecciona una wiki</h1>
       <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-        Cada entrada del menú lateral corresponde a una wiki canónica ingestada desde el
-        repositorio original. Total de {WIKIS.reduce((n, w) => n + w.lines, 0).toLocaleString()}{" "}
-        líneas de documentación federada disponibles offline.
+        Cada entrada del menú lateral corresponde a una wiki canónica ingestada desde el repositorio
+        original. Total de {WIKIS.reduce((n, w) => n + w.lines, 0).toLocaleString()} líneas de
+        documentación federada disponibles offline.
       </p>
       <div className="mt-6 grid gap-3">
         {WIKIS.map((w) => (

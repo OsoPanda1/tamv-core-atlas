@@ -6,19 +6,54 @@ export const Route = createFileRoute("/atlas")({
   head: () => ({
     meta: [
       { title: "Atlas / Digital Twin · TAMV" },
-      { name: "description", content: "Mapa vivo del ecosistema TAMV: assets, identidades, instituciones, nodos e infraestructura soberana." },
+      {
+        name: "description",
+        content:
+          "Mapa vivo del ecosistema TAMV: assets, identidades, instituciones, nodos e infraestructura soberana.",
+      },
       { property: "og:title", content: "Atlas / Digital Twin · TAMV" },
-      { property: "og:description", content: "Civilizational digital twin of sovereign territories." },
+      {
+        property: "og:description",
+        content: "Civilizational digital twin of sovereign territories.",
+      },
     ],
   }),
   component: AtlasPage,
 });
 
 const TERRITORIES = [
-  { code: "RDM", name: "Real del Monte", country: "Hidalgo, México", status: "piloto", nodes: 14, citizens: 1820 },
-  { code: "ALX", name: "Alamexa", country: "Hidalgo, México", status: "activa", nodes: 9, citizens: 612 },
-  { code: "UTV", name: "UTAMV Campus", country: "México", status: "activa", nodes: 7, citizens: 380 },
-  { code: "CIT", name: "CITEMESH Mesh", country: "Federada", status: "activa", nodes: 52, citizens: 0 },
+  {
+    code: "RDM",
+    name: "Real del Monte",
+    country: "Hidalgo, México",
+    status: "piloto",
+    nodes: 14,
+    citizens: 1820,
+  },
+  {
+    code: "ALX",
+    name: "Alamexa",
+    country: "Hidalgo, México",
+    status: "activa",
+    nodes: 9,
+    citizens: 612,
+  },
+  {
+    code: "UTV",
+    name: "UTAMV Campus",
+    country: "México",
+    status: "activa",
+    nodes: 7,
+    citizens: 380,
+  },
+  {
+    code: "CIT",
+    name: "CITEMESH Mesh",
+    country: "Federada",
+    status: "activa",
+    nodes: 52,
+    citizens: 0,
+  },
 ];
 
 const INSTITUTIONS = [
@@ -65,7 +100,12 @@ function AtlasPage() {
         </Panel>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Panel eyebrow="TERRITORIES" title="Federated cells" className="lg:col-span-2" bodyClassName="p-0">
+          <Panel
+            eyebrow="TERRITORIES"
+            title="Federated cells"
+            className="lg:col-span-2"
+            bodyClassName="p-0"
+          >
             <table className="w-full text-sm">
               <thead className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 <tr className="border-b border-border">
@@ -83,9 +123,13 @@ function AtlasPage() {
                     <td className="px-4 py-2.5 mono text-xs text-accent">{t.code}</td>
                     <td className="px-4 py-2.5">{t.name}</td>
                     <td className="px-4 py-2.5 text-muted-foreground">{t.country}</td>
-                    <td className="px-4 py-2.5 mono text-[10px] uppercase tracking-wider text-success">{t.status}</td>
+                    <td className="px-4 py-2.5 mono text-[10px] uppercase tracking-wider text-success">
+                      {t.status}
+                    </td>
                     <td className="px-4 py-2.5 text-right tabular">{t.nodes}</td>
-                    <td className="px-4 py-2.5 text-right tabular">{t.citizens.toLocaleString()}</td>
+                    <td className="px-4 py-2.5 text-right tabular">
+                      {t.citizens.toLocaleString()}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -102,7 +146,9 @@ function AtlasPage() {
                     </div>
                     <div className="min-w-0">
                       <div className="text-sm truncate">{i.name}</div>
-                      <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">{i.meta}</div>
+                      <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                        {i.meta}
+                      </div>
                     </div>
                   </li>
                 );

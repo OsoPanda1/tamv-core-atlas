@@ -6,7 +6,11 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Identity Layer · TAMV Core Kodex" },
-      { name: "description", content: "Sovereign identity layer: ORCID, GitHub, Zenodo, Figshare and federated credentials." },
+      {
+        name: "description",
+        content:
+          "Sovereign identity layer: ORCID, GitHub, Zenodo, Figshare and federated credentials.",
+      },
       { property: "og:title", content: "Identity Layer · TAMV" },
       { property: "og:description", content: "Federated identity for the sovereign runtime." },
     ],
@@ -35,13 +39,18 @@ function AuthPage() {
             {PROVIDERS.map((p) => {
               const Icon = p.icon;
               return (
-                <li key={p.name} className="px-5 py-4 flex items-center gap-4 hover:bg-secondary/40 transition-colors cursor-pointer">
+                <li
+                  key={p.name}
+                  className="px-5 py-4 flex items-center gap-4 hover:bg-secondary/40 transition-colors cursor-pointer"
+                >
                   <div className="h-10 w-10 rounded-sm border border-border bg-secondary/40 flex items-center justify-center">
                     <Icon className="h-5 w-5 text-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm">{p.name}</div>
-                    <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">{p.meta}</div>
+                    <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {p.meta}
+                    </div>
                   </div>
                   <button className="mono text-[10px] uppercase tracking-wider rounded-sm border border-border bg-card px-3 py-1.5 hover:bg-secondary">
                     Connect →
@@ -70,8 +79,8 @@ function AuthPage() {
           <hr className="my-5 border-border" />
           <p className="text-xs text-muted-foreground leading-relaxed">
             La capa de identidad está preparada para integrarse a Lovable Cloud, Supabase o un
-            ledger soberano externo. Toda credencial federada se valida bajo EOCT trust engine
-            y queda registrada en BookPI Ledger.
+            ledger soberano externo. Toda credencial federada se valida bajo EOCT trust engine y
+            queda registrada en BookPI Ledger.
           </p>
         </Panel>
       </div>

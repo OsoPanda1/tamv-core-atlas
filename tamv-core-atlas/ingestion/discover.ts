@@ -47,13 +47,11 @@ async function main() {
 
   await writeJsonAtomic(PATHS.reposJson, repos);
   await audit("discover.complete", { scanned, kept: repos.length, owner: CONFIG.GITHUB_OWNER });
-  // eslint-disable-next-line no-console
   console.log(`discovered ${repos.length} repos (scanned ${scanned}) for ${CONFIG.GITHUB_OWNER}`);
 }
 
 main().catch(async (err) => {
   await audit("discover.fatal", { error: String(err) });
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

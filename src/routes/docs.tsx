@@ -7,20 +7,48 @@ export const Route = createFileRoute("/docs")({
   head: () => ({
     meta: [
       { title: "Documentation OS · TAMV Core Kodex" },
-      { name: "description", content: "Knowledge graph documental: tomos, canon, ADR, research, protocolos, ontologías y APIs." },
+      {
+        name: "description",
+        content:
+          "Knowledge graph documental: tomos, canon, ADR, research, protocolos, ontologías y APIs.",
+      },
       { property: "og:title", content: "Documentation OS · TAMV" },
-      { property: "og:description", content: "GitBook + Obsidian-grade docs for the sovereign runtime." },
+      {
+        property: "og:description",
+        content: "GitBook + Obsidian-grade docs for the sovereign runtime.",
+      },
     ],
   }),
   component: DocsPage,
 });
 
 const SECTIONS = [
-  { title: "Canon", items: ["Enciclopedia Génesis", "Compendio F2", "Wiki Central", "Glosario MDX-4 HeHep"] },
+  {
+    title: "Canon",
+    items: ["Enciclopedia Génesis", "Compendio F2", "Wiki Central", "Glosario MDX-4 HeHep"],
+  },
   { title: "Tomos I → VII", items: TOMOS.map((t) => `Tomo ${t.number} · ${t.title}`) },
-  { title: "Guías operativas", items: ["Implementación Ciudad Piloto", "Manual Kernel ORCID/Zenodo/Figshare", "Gobernanza ELITE HeHep"] },
-  { title: "ADR · Research", items: ["ADR-001 Heptafederación", "ADR-002 BookPI Ledger", "ADR-003 EOCT ABAC", "ADR-004 PQC roadmap"] },
-  { title: "APIs · Protocolos", items: ["Isabella API v1.0", "TAMVAI Núcleo", "Identity Ledger Schema", "BookPI Event Schema"] },
+  {
+    title: "Guías operativas",
+    items: [
+      "Implementación Ciudad Piloto",
+      "Manual Kernel ORCID/Zenodo/Figshare",
+      "Gobernanza ELITE HeHep",
+    ],
+  },
+  {
+    title: "ADR · Research",
+    items: [
+      "ADR-001 Heptafederación",
+      "ADR-002 BookPI Ledger",
+      "ADR-003 EOCT ABAC",
+      "ADR-004 PQC roadmap",
+    ],
+  },
+  {
+    title: "APIs · Protocolos",
+    items: ["Isabella API v1.0", "TAMVAI Núcleo", "Identity Ledger Schema", "BookPI Event Schema"],
+  },
 ];
 
 function DocsPage() {
@@ -38,10 +66,15 @@ function DocsPage() {
         <aside className="border-r border-border bg-sidebar/40 p-5 space-y-6 max-h-[calc(100vh-180px)] overflow-y-auto">
           {SECTIONS.map((sec) => (
             <div key={sec.title}>
-              <div className="mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70 mb-2">{sec.title}</div>
+              <div className="mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70 mb-2">
+                {sec.title}
+              </div>
               <ul className="space-y-1">
                 {sec.items.map((it, i) => {
-                  const slug = it.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+                  const slug = it
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/^-|-$/g, "");
                   const active = location.pathname === `/docs/${slug}`;
                   return (
                     <li key={i}>
@@ -50,7 +83,9 @@ function DocsPage() {
                         params={{ slug }}
                         className={cn(
                           "block text-sm rounded-sm px-2.5 py-1.5 transition-colors",
-                          active ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
+                          active
+                            ? "bg-secondary text-foreground"
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
                         )}
                       >
                         {it}
@@ -62,9 +97,7 @@ function DocsPage() {
             </div>
           ))}
         </aside>
-        <div className="p-8">
-          {onLeaf ? <Outlet /> : <DocsLanding />}
-        </div>
+        <div className="p-8">{onLeaf ? <Outlet /> : <DocsLanding />}</div>
       </div>
     </div>
   );
@@ -73,8 +106,12 @@ function DocsPage() {
 function DocsLanding() {
   return (
     <article className="max-w-3xl">
-      <div className="mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">KODEX · README</div>
-      <h1 className="mt-2 text-2xl font-semibold tracking-tight">TAMV Core Kodex — Documentation OS</h1>
+      <div className="mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        KODEX · README
+      </div>
+      <h1 className="mt-2 text-2xl font-semibold tracking-tight">
+        TAMV Core Kodex — Documentation OS
+      </h1>
       <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
         Este sistema documental opera como un knowledge graph editorial. Cada entrada del canon
         (Tomos, Enciclopedia, ADR) es un nodo enlazable con backlinks bidireccionales, citaciones
@@ -89,9 +126,9 @@ function DocsLanding() {
       </ul>
       <h2 className="mt-8 text-base font-medium tracking-tight">Cómo leer el Kodex</h2>
       <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-        Comienza por el <em>Tomo I — Canon y Abstract</em>, continúa con el <em>Tomo II — Kernel
-        Heptafederado</em> para entender la arquitectura, y profundiza después en los tomos
-        territoriales (V, VI) y de futuro (VII · PQC).
+        Comienza por el <em>Tomo I — Canon y Abstract</em>, continúa con el{" "}
+        <em>Tomo II — Kernel Heptafederado</em> para entender la arquitectura, y profundiza después
+        en los tomos territoriales (V, VI) y de futuro (VII · PQC).
       </p>
     </article>
   );

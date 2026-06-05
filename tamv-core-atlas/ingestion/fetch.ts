@@ -61,13 +61,11 @@ async function main() {
 
   const limit = pLimit(CONFIG.CONCURRENCY);
   await Promise.all(repos.map((r) => limit(() => fetchOne(r))));
-  // eslint-disable-next-line no-console
   console.log(`fetched evidence for ${repos.length} repos`);
 }
 
 main().catch(async (err) => {
   await audit("fetch.fatal", { error: String(err) });
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

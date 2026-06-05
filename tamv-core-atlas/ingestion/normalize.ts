@@ -21,12 +21,10 @@ async function main() {
       await audit("normalize.error", { slug: d.name, error: String(err) });
     }
   }
-  // eslint-disable-next-line no-console
   console.log(`normalized ${ok} repos`);
 }
 
 main().catch((err) => {
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

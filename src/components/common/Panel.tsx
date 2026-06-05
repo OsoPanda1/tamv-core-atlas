@@ -65,9 +65,7 @@ export function Stat({
       <div className="flex items-baseline gap-2">
         <div className="text-2xl font-medium tracking-tight tabular">{value}</div>
         {delta && (
-          <span className="mono text-[10px] uppercase tracking-wider text-success">
-            {delta}
-          </span>
+          <span className="mono text-[10px] uppercase tracking-wider text-success">{delta}</span>
         )}
       </div>
       {hint && <div className="text-[11px] text-muted-foreground">{hint}</div>}
@@ -98,9 +96,7 @@ export function PageHeader({
           {title}
         </h1>
         {description && (
-          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-            {description}
-          </p>
+          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{description}</p>
         )}
       </div>
       {children && <div className="flex items-center gap-2">{children}</div>}

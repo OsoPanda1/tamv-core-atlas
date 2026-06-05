@@ -59,9 +59,7 @@ function NavGroup({ title, items }: { title: string; items: NavItem[] }) {
       <nav className="flex flex-col gap-px">
         {items.map((item) => {
           const active =
-            item.to === "/"
-              ? location.pathname === "/"
-              : location.pathname.startsWith(item.to);
+            item.to === "/" ? location.pathname === "/" : location.pathname.startsWith(item.to);
           const Icon = item.icon;
           return (
             <Link
@@ -73,7 +71,12 @@ function NavGroup({ title, items }: { title: string; items: NavItem[] }) {
                 active && "bg-sidebar-accent text-sidebar-foreground",
               )}
             >
-              <Icon className={cn("h-4 w-4 shrink-0 opacity-70 group-hover:opacity-100", active && "opacity-100 text-primary")} />
+              <Icon
+                className={cn(
+                  "h-4 w-4 shrink-0 opacity-70 group-hover:opacity-100",
+                  active && "opacity-100 text-primary",
+                )}
+              />
               <span className="flex-1 truncate">{item.label}</span>
               {item.badge && (
                 <span className="mono text-[10px] uppercase tracking-wider rounded-sm bg-muted px-1.5 py-0.5 text-muted-foreground">
@@ -126,13 +129,23 @@ function Sidebar() {
 
 function TopBar() {
   const { location } = useRouterState();
-  const crumbs = location.pathname === "/" ? ["Kodex", "Home"] : ["Kodex", ...location.pathname.split("/").filter(Boolean)];
+  const crumbs =
+    location.pathname === "/"
+      ? ["Kodex", "Home"]
+      : ["Kodex", ...location.pathname.split("/").filter(Boolean)];
   return (
     <header className="sticky top-0 z-30 flex h-12 items-center justify-between gap-4 border-b border-border bg-background/80 backdrop-blur px-5">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         {crumbs.map((c, i) => (
           <span key={i} className="flex items-center gap-2">
-            <span className={cn("mono uppercase tracking-wider", i === crumbs.length - 1 && "text-foreground")}>{c}</span>
+            <span
+              className={cn(
+                "mono uppercase tracking-wider",
+                i === crumbs.length - 1 && "text-foreground",
+              )}
+            >
+              {c}
+            </span>
             {i < crumbs.length - 1 && <span className="opacity-40">/</span>}
           </span>
         ))}

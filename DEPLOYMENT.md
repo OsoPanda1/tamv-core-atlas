@@ -9,6 +9,15 @@ auxiliar `tamv-core-atlas` (ingestión de repositorios). Tres rutas soportadas:
 
 ---
 
+## 0. Contexto de versión y alcance
+
+- **Versión operativa actual:** `0.1.0-mvp` para el contenedor raíz Kodex.
+- **Boundary desplegado:** `/src` + `Dockerfile` + configuración raíz.
+- **Boundary auxiliar:** `/tamv-core-atlas` se ejecuta bajo demanda para generar
+  artefactos `atlas/*`; no queda levantado como servicio permanente.
+- **Boundary excluido:** `/tamv-atlas-nextgen` no participa en este despliegue
+  raíz hasta que exista una migración formal documentada en `ARCHITECTURE.md`.
+
 ## 1. Requisitos
 
 - Docker 24+ y Docker Compose v2
@@ -48,12 +57,12 @@ Los artefactos generados (`atlas/index.json`, `atlas/graph.json`,
 definidos los siguientes valores en el repo, hace SSH al host objetivo y
 ejecuta `docker compose pull && up -d`:
 
-| Tipo                | Nombre              | Ejemplo                       |
-| ------------------- | ------------------- | ----------------------------- |
-| Repository variable | `DEPLOY_HOST`       | `kodex.tamv.org`              |
-| Repository variable | `DEPLOY_USER`       | `deploy`                      |
-| Repository variable | `DEPLOY_PATH`       | `/srv/tamv-kodex`             |
-| Repository secret   | `DEPLOY_SSH_KEY`    | clave privada SSH (PEM)       |
+| Tipo                | Nombre           | Ejemplo                 |
+| ------------------- | ---------------- | ----------------------- |
+| Repository variable | `DEPLOY_HOST`    | `kodex.tamv.org`        |
+| Repository variable | `DEPLOY_USER`    | `deploy`                |
+| Repository variable | `DEPLOY_PATH`    | `/srv/tamv-kodex`       |
+| Repository secret   | `DEPLOY_SSH_KEY` | clave privada SSH (PEM) |
 
 En el host objetivo coloca `docker-compose.yml` y un `.env` con el tag de
 imagen a usar (`image: ghcr.io/<owner>/tamv-core-kodex:latest`).
@@ -90,6 +99,16 @@ docker compose pull kodex
 docker tag ghcr.io/<owner>/tamv-core-kodex:<sha-anterior> ghcr.io/<owner>/tamv-core-kodex:latest
 docker compose up -d kodex
 ```
+
+## 10. Troubleshooting CI/CD
+
+| Síntoma                                         | Verificación                              | Acción recomendada                                                              |
+| ----------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------- |
+| `bun install --frozen-lockfile` falla en Docker | `bun.lock` no coincide con `package.json` | Regenerar lockfile con Bun y commitearlo.                                       |
+| `vite build`/Nitro falla                        | `bun run build` local                     | Revisar rutas TanStack, imports de servidor y `NITRO_PRESET=node-server`.       |
+| Push a GHCR falla                               | Permisos del workflow                     | Confirmar `packages: write` y que el token `GITHUB_TOKEN` tenga acceso al repo. |
+| SSH deploy falla                                | Variables/secrets                         | Confirmar `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PATH` y `DEPLOY_SSH_KEY`.       |
+| Lint raíz falla por código nextgen              | Boundary incorrecto                       | Validar nextgen desde `/tamv-atlas-nextgen`; no incluirlo en el lint raíz.      |
 
 ---
 

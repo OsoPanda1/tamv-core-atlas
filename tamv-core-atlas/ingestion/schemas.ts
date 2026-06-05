@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export const RepoInputSchema = z.object({
-  name: z.string().min(1).max(120).regex(/^[A-Za-z0-9._-]+$/),
+  name: z
+    .string()
+    .min(1)
+    .max(120)
+    .regex(/^[A-Za-z0-9._-]+$/),
   url: z.string().url(),
   defaultBranch: z.string().min(1).max(120).optional(),
   sha: z.string().min(4).max(64).optional(),

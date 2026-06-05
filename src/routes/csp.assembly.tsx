@@ -8,7 +8,10 @@ export const Route = createFileRoute("/csp/assembly")({
   head: () => ({
     meta: [
       { title: "Self-Assembly Engine · CSP-α" },
-      { name: "description", content: "Capa 4. Federation Compiler™ — canon + grafo → docker-compose ejecutable." },
+      {
+        name: "description",
+        content: "Capa 4. Federation Compiler™ — canon + grafo → docker-compose ejecutable.",
+      },
     ],
   }),
   component: AssemblyPage,
@@ -68,8 +71,17 @@ function AssemblyPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <Stat label="MODULES" value={RDM_ASSEMBLY.length} hint="entidades en topología" />
           <Stat label="LAYERS" value={4} hint="ordenadas topológicamente" />
-          <Stat label="EXPOSED PORTS" value={RDM_ASSEMBLY.reduce((a, s) => a + s.ports.length, 0)} hint="incluye 80/443 perimetrales" />
-          <Stat label="LAST BUILD" value={yaml ? "OK" : "—"} delta={yaml ? "sealed" : undefined} hint="BookPI · ASSEMBLY" />
+          <Stat
+            label="EXPOSED PORTS"
+            value={RDM_ASSEMBLY.reduce((a, s) => a + s.ports.length, 0)}
+            hint="incluye 80/443 perimetrales"
+          />
+          <Stat
+            label="LAST BUILD"
+            value={yaml ? "OK" : "—"}
+            delta={yaml ? "sealed" : undefined}
+            hint="BookPI · ASSEMBLY"
+          />
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -80,10 +92,18 @@ function AssemblyPage() {
                 const active = running && step === i;
                 return (
                   <li key={s.k} className="px-4 py-3 flex items-center gap-3">
-                    <span className={`mono text-[10px] uppercase tracking-wider tabular w-5 ${done ? "text-success" : active ? "text-primary" : "text-muted-foreground/60"}`}>
+                    <span
+                      className={`mono text-[10px] uppercase tracking-wider tabular w-5 ${done ? "text-success" : active ? "text-primary" : "text-muted-foreground/60"}`}
+                    >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    {done ? <CheckCircle2 className="h-3.5 w-3.5 text-success" /> : <span className={`h-1.5 w-1.5 rounded-full ${active ? "bg-primary animate-pulse" : "bg-muted-foreground/40"}`} />}
+                    {done ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-success" />
+                    ) : (
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${active ? "bg-primary animate-pulse" : "bg-muted-foreground/40"}`}
+                      />
+                    )}
                     <span className="text-xs flex-1">{s.label}</span>
                   </li>
                 );
@@ -91,13 +111,20 @@ function AssemblyPage() {
             </ol>
           </Panel>
 
-          <Panel eyebrow="MODULES" title="Federation Compiler output" bodyClassName="p-0" className="xl:col-span-2">
+          <Panel
+            eyebrow="MODULES"
+            title="Federation Compiler output"
+            bodyClassName="p-0"
+            className="xl:col-span-2"
+          >
             <ul className="divide-y divide-border">
               {RDM_ASSEMBLY.map((m) => (
                 <li key={m.id} className="px-4 py-3">
                   <div className="flex items-center justify-between gap-3">
                     <span className="mono text-[11px] text-foreground truncate">{m.id}</span>
-                    <span className="mono text-[10px] text-muted-foreground truncate">{m.image}</span>
+                    <span className="mono text-[10px] text-muted-foreground truncate">
+                      {m.image}
+                    </span>
                   </div>
                   <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 mono text-[10px] text-muted-foreground">
                     <span>fed={m.env.TAMV_FEDERATION}</span>
@@ -115,17 +142,23 @@ function AssemblyPage() {
           title="rdm-node-zero.compose.yaml"
           action={
             yaml && (
-              <button onClick={download} className="mono text-[10px] uppercase tracking-wider px-2.5 py-1.5 rounded-sm border border-border hover:bg-secondary/40 flex items-center gap-1.5">
+              <button
+                onClick={download}
+                className="mono text-[10px] uppercase tracking-wider px-2.5 py-1.5 rounded-sm border border-border hover:bg-secondary/40 flex items-center gap-1.5"
+              >
                 <Download className="h-3 w-3" /> descargar
               </button>
             )
           }
         >
           {yaml ? (
-            <pre className="mono text-[11px] leading-relaxed text-foreground/90 overflow-auto max-h-[460px]">{yaml}</pre>
+            <pre className="mono text-[11px] leading-relaxed text-foreground/90 overflow-auto max-h-[460px]">
+              {yaml}
+            </pre>
           ) : (
             <div className="text-xs text-muted-foreground">
-              Pulsa <span className="mono">Build RDM Node Zero</span> para ejecutar el Federation Compiler™ sobre las entidades canónicas resueltas.
+              Pulsa <span className="mono">Build RDM Node Zero</span> para ejecutar el Federation
+              Compiler™ sobre las entidades canónicas resueltas.
             </div>
           )}
         </Panel>

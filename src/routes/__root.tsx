@@ -74,10 +74,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "TAMV Core Kodex · Heptafederated Sovereign Runtime" },
-      { name: "description", content: "Constitutional runtime, knowledge graph and documentation OS for the TAMV heptafederated ecosystem." },
+      {
+        name: "description",
+        content:
+          "Constitutional runtime, knowledge graph and documentation OS for the TAMV heptafederated ecosystem.",
+      },
       { name: "author", content: "Edwin O. Castillo Trejo · TAMV" },
       { property: "og:title", content: "TAMV Core Kodex" },
-      { property: "og:description", content: "Sovereign, heptafederated, AI-native operational console." },
+      {
+        property: "og:description",
+        content: "Sovereign, heptafederated, AI-native operational console.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
