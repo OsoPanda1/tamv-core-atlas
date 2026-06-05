@@ -1,0 +1,594 @@
+{
+{
+  "$schema": "https://tamv.org/schemas/tamv-atlas-kernel.schema.json",
+  "kernel": {
+    "name": "TAMV Core Atlas Kernel",
+    "codename": "ANUBIS",
+    "version": "0.9.7-alpha",
+    "architecture": "heptafederated-cognitive-runtime",
+    "mode": "production-staging",
+    "classification": "civilizational-operating-atlas",
+    "description": "Federated semantic atlas and sovereign intelligence runtime for repository ingestion, classification, graph cognition, semantic indexing, prediction, orchestration and publication.",
+    "status": {
+      "ui_readiness": 0.71,
+      "atlas_pipeline_readiness": 0.82,
+      "semantic_runtime_readiness": 0.54,
+      "prediction_engine_readiness": 0.42,
+      "production_deploy_readiness": 0.58,
+      "security_maturity": 0.76,
+      "federation_coherence": 0.69,
+      "overall_realistic_readiness": 0.61
+    },
+    "mission": "Transform fragmented repositories, entities and signals into a sovereign semantic atlas capable of orchestration, analysis, contextual reasoning and federated intelligence.",
+    "vision": "Become a modular sovereign intelligence substrate capable of indexing, classifying, correlating and evolving distributed ecosystems through secure semantic cognition.",
+    "objectives": [
+      "Build sovereign semantic infrastructure",
+      "Enable federated repository cognition",
+      "Create auditable knowledge graphs",
+      "Enable semantic observability",
+      "Provide deployable intelligence layers",
+      "Reduce architectural entropy",
+      "Enable scalable civilizational coordination"
+    ]
+  },
+
+  "federations": {
+    "atlas": {
+      "role": "knowledge-mapping",
+      "priority": "critical",
+      "modules": [
+        "ontology-engine",
+        "semantic-graph",
+        "entity-resolution",
+        "federated-indexing"
+      ]
+    },
+    "nexus": {
+      "role": "relationship-topology",
+      "priority": "high",
+      "modules": [
+        "graph-runtime",
+        "edge-weighting",
+        "similarity-engine",
+        "causal-linking"
+      ]
+    },
+    "korima": {
+      "role": "economic-intelligence",
+      "priority": "medium",
+      "modules": [
+        "token-analysis",
+        "economic-scoring",
+        "market-signals"
+      ]
+    },
+    "eoct": {
+      "role": "operations-command",
+      "priority": "critical",
+      "modules": [
+        "telemetry",
+        "observability",
+        "runtime-health",
+        "audit-stream"
+      ]
+    },
+    "mdx5": {
+      "role": "content-assembly",
+      "priority": "medium",
+      "modules": [
+        "markdown-pipeline",
+        "document-synthesis",
+        "semantic-rendering"
+      ]
+    },
+    "csp": {
+      "role": "canon-security-protocol",
+      "priority": "critical",
+      "modules": [
+        "zero-trust",
+        "policy-validation",
+        "secret-redaction",
+        "supply-chain-defense"
+      ]
+    },
+    "heptacore": {
+      "role": "kernel-orchestration",
+      "priority": "critical",
+      "modules": [
+        "scheduler",
+        "workflow-engine",
+        "runtime-router",
+        "event-bus"
+      ]
+    }
+  },
+
+  "pipeline": {
+    "execution_model": "distributed-event-driven",
+    "strategy": "incremental-semantic-orchestration",
+    "steps": [
+      {
+        "id": "discover",
+        "enabled": true,
+        "description": "Discover repositories, entities and sources",
+        "engine": "github-discovery-engine",
+        "concurrency": 6,
+        "retry_policy": {
+          "attempts": 5,
+          "backoff": "exponential-jitter"
+        }
+      },
+      {
+        "id": "fetch",
+        "enabled": true,
+        "description": "Secure evidence acquisition",
+        "engine": "safe-fetch-runtime",
+        "restrictions": {
+          "allow_symlinks": false,
+          "allow_exec": false,
+          "allow_binary": false,
+          "max_file_size_mb": 4
+        }
+      },
+      {
+        "id": "sanitize",
+        "enabled": true,
+        "description": "Redact secrets and normalize evidence",
+        "engine": "csp-redaction-engine"
+      },
+      {
+        "id": "extract",
+        "enabled": true,
+        "description": "Extract metadata and semantic signals",
+        "engine": "semantic-extractor"
+      },
+      {
+        "id": "normalize",
+        "enabled": true,
+        "description": "Canonical normalization",
+        "engine": "canonical-normalizer"
+      },
+      {
+        "id": "classify",
+        "enabled": true,
+        "description": "Deterministic rule classification",
+        "engine": "classification-engine"
+      },
+      {
+        "id": "categorize",
+        "enabled": true,
+        "description": "Multi-label semantic categorization",
+        "engine": "semantic-taxonomy-engine"
+      },
+      {
+        "id": "embed",
+        "enabled": true,
+        "description": "Generate semantic embeddings",
+        "engine": "embedding-runtime"
+      },
+      {
+        "id": "relate",
+        "enabled": true,
+        "description": "Construct weighted graph relations",
+        "engine": "federated-graph-builder"
+      },
+      {
+        "id": "cluster",
+        "enabled": true,
+        "description": "Semantic clustering and topology grouping",
+        "engine": "semantic-clustering-engine"
+      },
+      {
+        "id": "predict",
+        "enabled": true,
+        "description": "Predict maturity and evolution",
+        "engine": "predictive-intelligence-runtime"
+      },
+      {
+        "id": "score",
+        "enabled": true,
+        "description": "Calculate operational scores",
+        "engine": "scoring-engine"
+      },
+      {
+        "id": "publish",
+        "enabled": true,
+        "description": "Publish atlas artifacts",
+        "engine": "atlas-publisher"
+      },
+      {
+        "id": "observe",
+        "enabled": true,
+        "description": "Telemetry and runtime metrics",
+        "engine": "observability-runtime"
+      }
+    ]
+  },
+
+  "semantic_search": {
+    "enabled": true,
+    "mode": "hybrid",
+    "strategies": {
+      "bm25": {
+        "enabled": true,
+        "weight": 0.35
+      },
+      "vector_similarity": {
+        "enabled": true,
+        "weight": 0.65,
+        "metric": "cosine"
+      }
+    },
+    "embedding_models": [
+      {
+        "name": "text-embedding-3-large",
+        "provider": "OpenAI",
+        "dimensions": 3072,
+        "priority": "primary"
+      },
+      {
+        "name": "bge-large-en-v1.5",
+        "provider": "local",
+        "dimensions": 1024,
+        "priority": "fallback"
+      }
+    ],
+    "reranking": {
+      "enabled": true,
+      "model": "cross-encoder-ms-marco",
+      "top_k": 20
+    },
+    "semantic_memory": {
+      "enabled": true,
+      "retention_days": 365,
+      "compression": "adaptive"
+    },
+    "query_understanding": {
+      "enabled": true,
+      "intent_detection": true,
+      "entity_resolution": true,
+      "context_expansion": true
+    }
+  },
+
+  "ontology": {
+    "enabled": true,
+    "model": "tamv-heptafederated-ontology-v3",
+    "entity_types": [
+      "repository",
+      "module",
+      "service",
+      "federation",
+      "pipeline",
+      "knowledge-node",
+      "semantic-cluster",
+      "runtime",
+      "dataset",
+      "policy",
+      "signal",
+      "artifact"
+    ],
+    "relationship_types": [
+      "depends_on",
+      "extends",
+      "implements",
+      "publishes",
+      "relates_to",
+      "similar_to",
+      "belongs_to",
+      "derives_from",
+      "references",
+      "federates_with"
+    ],
+    "confidence_threshold": 0.67,
+    "ontology_resolution_strategy": "multi-pass-semantic-resolution"
+  },
+
+  "classification": {
+    "strategy": "hybrid-deterministic-semantic",
+    "multi_label": true,
+    "confidence_scoring": true,
+    "labels": [
+      "frontend",
+      "backend",
+      "semantic-runtime",
+      "knowledge-graph",
+      "cli",
+      "ai-runtime",
+      "observability",
+      "federation",
+      "security",
+      "infrastructure",
+      "atlas",
+      "governance",
+      "experimental",
+      "production-ready",
+      "research"
+    ],
+    "classification_layers": {
+      "rules": {
+        "enabled": true,
+        "weight": 0.45
+      },
+      "semantic": {
+        "enabled": true,
+        "weight": 0.40
+      },
+      "graph_context": {
+        "enabled": true,
+        "weight": 0.15
+      }
+    }
+  },
+
+  "prediction_engine": {
+    "enabled": true,
+    "models": [
+      "technical-debt-estimator",
+      "production-readiness-model",
+      "federation-stability-model",
+      "architecture-drift-detector",
+      "maintainability-score-model"
+    ],
+    "outputs": {
+      "risk_score": true,
+      "evolution_probability": true,
+      "deployment_confidence": true,
+      "maintenance_complexity": true,
+      "semantic_decay": true
+    },
+    "forecast_horizon_days": 365,
+    "drift_detection": {
+      "enabled": true,
+      "threshold": 0.28
+    }
+  },
+
+  "knowledge_graph": {
+    "enabled": true,
+    "database": {
+      "primary": "neo4j",
+      "fallback": "json-graph"
+    },
+    "edge_weighting": {
+      "semantic_similarity": 0.40,
+      "shared_dependencies": 0.20,
+      "shared_taxonomy": 0.20,
+      "federation_affinity": 0.10,
+      "historical_interaction": 0.10
+    },
+    "graph_features": {
+      "causal_edges": true,
+      "provenance_tracking": true,
+      "federated_clustering": true,
+      "lineage_tracking": true,
+      "semantic_bridges": true
+    }
+  },
+
+  "storage": {
+    "primary": {
+      "type": "postgresql",
+      "extensions": [
+        "pgvector",
+        "timescaledb"
+      ]
+    },
+    "vector_store": {
+      "type": "qdrant",
+      "replication": true
+    },
+    "graph_store": {
+      "type": "neo4j"
+    },
+    "artifact_store": {
+      "type": "s3-compatible"
+    },
+    "cache": {
+      "type": "redis",
+      "strategy": "semantic-lru"
+    }
+  },
+
+  "security": {
+    "mode": "zero-trust",
+    "sandbox": {
+      "allow_code_execution": false,
+      "allow_dynamic_imports": false,
+      "allow_shell": false
+    },
+    "filesystem": {
+      "symlink_protection": true,
+      "path_traversal_protection": true,
+      "allowlist_mode": true,
+      "atomic_writes": true
+    },
+    "supply_chain": {
+      "dependency_verification": true,
+      "minimum_release_age_hours": 24,
+      "integrity_checks": true
+    },
+    "secret_redaction": {
+      "enabled": true,
+      "patterns": [
+        "aws",
+        "jwt",
+        "pem",
+        "github_pat",
+        "oauth",
+        "private_key",
+        "token",
+        "apikey"
+      ]
+    },
+    "audit": {
+      "enabled": true,
+      "immutable_logs": true,
+      "event_signatures": true
+    }
+  },
+
+  "observability": {
+    "enabled": true,
+    "metrics": {
+      "prometheus": true,
+      "custom_runtime_metrics": true
+    },
+    "tracing": {
+      "enabled": true,
+      "provider": "opentelemetry"
+    },
+    "logging": {
+      "structured": true,
+      "retention_days": 90
+    },
+    "runtime_signals": [
+      "pipeline_latency",
+      "semantic_accuracy",
+      "classification_confidence",
+      "graph_density",
+      "ingestion_failures",
+      "prediction_accuracy",
+      "memory_pressure"
+    ]
+  },
+
+  "deployment": {
+    "strategy": "federated-hybrid-runtime",
+    "targets": [
+      "docker",
+      "kubernetes",
+      "bare-metal",
+      "cloudflare-workers",
+      "vercel",
+      "linux-vps"
+    ],
+    "recommended_stack": {
+      "frontend": "vite-tanstack-start",
+      "backend": "node-tsx",
+      "database": "postgresql-pgvector",
+      "graph": "neo4j",
+      "vectors": "qdrant",
+      "cache": "redis",
+      "queue": "bullmq"
+    },
+    "orchestration": {
+      "workers": true,
+      "queues": true,
+      "incremental_jobs": true,
+      "parallel_ingestion": true
+    }
+  },
+
+  "patches": {
+    "root_package_json": {
+      "remove_invalid_scripts": [
+        "tamv/cli/tamv.mjs",
+        "scripts/health-check.mjs",
+        "scripts/diagnostics.mjs",
+        "scripts/observability.mjs"
+      ],
+      "replace_with": {
+        "atlas:discover": "npm --workspace tamv-core-atlas run discover",
+        "atlas:build": "npm --workspace tamv-core-atlas run build",
+        "atlas:validate": "npm --workspace tamv-core-atlas run validate"
+      }
+    },
+    "workspace": {
+      "enabled": true,
+      "manager": "pnpm",
+      "file": "pnpm-workspace.yaml"
+    },
+    "ui_patch": {
+      "nexus_graph": {
+        "issue": "fixed-width-rendering",
+        "solution": "resize-observer-responsive-runtime"
+      }
+    },
+    "atlas_connection": {
+      "strategy": "ui-consumes-generated-atlas-json",
+      "files": [
+        "atlas/index.json",
+        "atlas/graph.json",
+        "atlas/repos/*"
+      ]
+    }
+  },
+
+  "analysis_methods": {
+    "repository_analysis": [
+      "dependency-analysis",
+      "semantic-embedding-analysis",
+      "architectural-pattern-detection",
+      "stack-inference",
+      "federation-affinity-analysis",
+      "technical-debt-analysis",
+      "entropy-analysis"
+    ],
+    "prediction_methods": [
+      "time-series-risk-analysis",
+      "semantic-drift-analysis",
+      "graph-centrality-analysis",
+      "maintainability-scoring",
+      "deployment-readiness-forecasting"
+    ],
+    "categorization_methods": [
+      "ontology-mapping",
+      "multi-label-semantic-classification",
+      "embedding-clustering",
+      "graph-contextual-inference"
+    ]
+  },
+
+  "runtime_modules": {
+    "semantic_engine": {
+      "status": "partial",
+      "readiness": 0.63
+    },
+    "graph_engine": {
+      "status": "stable",
+      "readiness": 0.79
+    },
+    "prediction_engine": {
+      "status": "experimental",
+      "readiness": 0.41
+    },
+    "ontology_engine": {
+      "status": "beta",
+      "readiness": 0.58
+    },
+    "atlas_pipeline": {
+      "status": "stable-beta",
+      "readiness": 0.82
+    }
+  },
+
+  "professional_assessment": {
+    "technical_positioning": "Strong conceptual architecture with a credible secure-ingestion core. Current limitation is mismatch between declared kernel architecture and actual implemented modules.",
+    "academic_positioning": "Viable as a research-grade federated semantic infrastructure prototype aligned with knowledge graph engineering and sovereign AI infrastructure.",
+    "market_positioning": "Can position as a sovereign semantic intelligence platform for ecosystem mapping and operational cognition.",
+    "critical_weaknesses": [
+      "Kernel modules declared but not implemented",
+      "UI heavily dependent on seed data",
+      "Missing production-grade CI/CD",
+      "Incomplete semantic runtime integration",
+      "Prediction engine still conceptual"
+    ],
+    "major_strengths": [
+      "Strong secure ingestion architecture",
+      "Clear federated conceptual model",
+      "Good graph cognition direction",
+      "Defensive filesystem design",
+      "Scalable semantic potential"
+    ],
+    "realistic_next_steps": [
+      "Convert atlas pipeline into official workspace package",
+      "Connect UI to generated atlas artifacts",
+      "Implement semantic embedding persistence",
+      "Deploy graph database",
+      "Add queue-based ingestion",
+      "Implement telemetry dashboards",
+      "Formalize ontology schemas"
+    ]
+  }
+}

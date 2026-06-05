@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WikisRouteImport } from './routes/wikis'
 import { Route as NexusRouteImport } from './routes/nexus'
 import { Route as Mdx5RouteImport } from './routes/mdx5'
 import { Route as KorimaRouteImport } from './routes/korima'
@@ -20,12 +21,18 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AtlasRouteImport } from './routes/atlas'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CspIndexRouteImport } from './routes/csp.index'
+import { Route as WikisSlugRouteImport } from './routes/wikis.$slug'
 import { Route as DocsSlugRouteImport } from './routes/docs.$slug'
 import { Route as CspOntologyRouteImport } from './routes/csp.ontology'
 import { Route as CspIngestionRouteImport } from './routes/csp.ingestion'
 import { Route as CspCanonRouteImport } from './routes/csp.canon'
 import { Route as CspAssemblyRouteImport } from './routes/csp.assembly'
 
+const WikisRoute = WikisRouteImport.update({
+  id: '/wikis',
+  path: '/wikis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NexusRoute = NexusRouteImport.update({
   id: '/nexus',
   path: '/nexus',
@@ -81,6 +88,11 @@ const CspIndexRoute = CspIndexRouteImport.update({
   path: '/csp/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WikisSlugRoute = WikisSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => WikisRoute,
+} as any)
 const DocsSlugRoute = DocsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -118,11 +130,13 @@ export interface FileRoutesByFullPath {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/wikis': typeof WikisRouteWithChildren
   '/csp/assembly': typeof CspAssemblyRoute
   '/csp/canon': typeof CspCanonRoute
   '/csp/ingestion': typeof CspIngestionRoute
   '/csp/ontology': typeof CspOntologyRoute
   '/docs/$slug': typeof DocsSlugRoute
+  '/wikis/$slug': typeof WikisSlugRoute
   '/csp/': typeof CspIndexRoute
 }
 export interface FileRoutesByTo {
@@ -136,11 +150,13 @@ export interface FileRoutesByTo {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/wikis': typeof WikisRouteWithChildren
   '/csp/assembly': typeof CspAssemblyRoute
   '/csp/canon': typeof CspCanonRoute
   '/csp/ingestion': typeof CspIngestionRoute
   '/csp/ontology': typeof CspOntologyRoute
   '/docs/$slug': typeof DocsSlugRoute
+  '/wikis/$slug': typeof WikisSlugRoute
   '/csp': typeof CspIndexRoute
 }
 export interface FileRoutesById {
@@ -155,11 +171,13 @@ export interface FileRoutesById {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/wikis': typeof WikisRouteWithChildren
   '/csp/assembly': typeof CspAssemblyRoute
   '/csp/canon': typeof CspCanonRoute
   '/csp/ingestion': typeof CspIngestionRoute
   '/csp/ontology': typeof CspOntologyRoute
   '/docs/$slug': typeof DocsSlugRoute
+  '/wikis/$slug': typeof WikisSlugRoute
   '/csp/': typeof CspIndexRoute
 }
 export interface FileRouteTypes {
@@ -175,11 +193,13 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/wikis'
     | '/csp/assembly'
     | '/csp/canon'
     | '/csp/ingestion'
     | '/csp/ontology'
     | '/docs/$slug'
+    | '/wikis/$slug'
     | '/csp/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -193,11 +213,13 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/wikis'
     | '/csp/assembly'
     | '/csp/canon'
     | '/csp/ingestion'
     | '/csp/ontology'
     | '/docs/$slug'
+    | '/wikis/$slug'
     | '/csp'
   id:
     | '__root__'
@@ -211,11 +233,13 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/wikis'
     | '/csp/assembly'
     | '/csp/canon'
     | '/csp/ingestion'
     | '/csp/ontology'
     | '/docs/$slug'
+    | '/wikis/$slug'
     | '/csp/'
   fileRoutesById: FileRoutesById
 }
@@ -230,6 +254,7 @@ export interface RootRouteChildren {
   KorimaRoute: typeof KorimaRoute
   Mdx5Route: typeof Mdx5Route
   NexusRoute: typeof NexusRoute
+  WikisRoute: typeof WikisRouteWithChildren
   CspAssemblyRoute: typeof CspAssemblyRoute
   CspCanonRoute: typeof CspCanonRoute
   CspIngestionRoute: typeof CspIngestionRoute
@@ -239,6 +264,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wikis': {
+      id: '/wikis'
+      path: '/wikis'
+      fullPath: '/wikis'
+      preLoaderRoute: typeof WikisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/nexus': {
       id: '/nexus'
       path: '/nexus'
@@ -316,6 +348,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CspIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wikis/$slug': {
+      id: '/wikis/$slug'
+      path: '/$slug'
+      fullPath: '/wikis/$slug'
+      preLoaderRoute: typeof WikisSlugRouteImport
+      parentRoute: typeof WikisRoute
+    }
     '/docs/$slug': {
       id: '/docs/$slug'
       path: '/$slug'
@@ -364,6 +403,16 @@ const DocsRouteChildren: DocsRouteChildren = {
 
 const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
 
+interface WikisRouteChildren {
+  WikisSlugRoute: typeof WikisSlugRoute
+}
+
+const WikisRouteChildren: WikisRouteChildren = {
+  WikisSlugRoute: WikisSlugRoute,
+}
+
+const WikisRouteWithChildren = WikisRoute._addFileChildren(WikisRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AtlasRoute: AtlasRoute,
@@ -375,6 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   KorimaRoute: KorimaRoute,
   Mdx5Route: Mdx5Route,
   NexusRoute: NexusRoute,
+  WikisRoute: WikisRouteWithChildren,
   CspAssemblyRoute: CspAssemblyRoute,
   CspCanonRoute: CspCanonRoute,
   CspIngestionRoute: CspIngestionRoute,
@@ -384,3 +434,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

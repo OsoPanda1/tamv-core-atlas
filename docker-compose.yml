@@ -1,0 +1,38 @@
+# TAMV Core Kodex — local / self-host stack
+# Usage: docker compose up -d --build
+services:
+  kodex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tamv/core-kodex:latest
+    container_name: tamv-kodex
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  atlas:
+    image: node:22-alpine
+    container_name: tamv-atlas-ingestion
+    working_dir: /app/tamv-core-atlas
+    volumes:
+      - ./tamv-core-atlas:/app/tamv-core-atlas
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITHUB_OWNER: ${GITHUB_OWNER:-OsoPanda1}
+      INCLUDE_FORKS: "false"
+      MAX_REPOS: "500"
+      CONCURRENCY: "6"
+    command: >
+      sh -c "npm install --no-audit --no-fund && npm run build"
+    profiles: ["ingest"]
