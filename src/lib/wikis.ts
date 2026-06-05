@@ -43,6 +43,47 @@ const META: Record<string, { repo: string; title: string; description: string }>
   },
 };
 
+// Newly fused docs from tamv-atlas-nextgen repository (Plataforma Territorial LTOS Real del Monte).
+const NG_META = {
+  "tamv-atlas-nextgen-readme": {
+    repo: "OsoPanda1/Plataforma-Territorial-LTOS-REAL-DEL-MONTE",
+    title: "TAMV Atlas NextGen · README",
+    description: "Estado real del monorepo: frontend, backend, AtlasKernel, federación.",
+  },
+  "atlasng-repo_unification_playbook": {
+    repo: "tamv-atlas-nextgen/docs",
+    title: "Repo Unification Playbook",
+    description: "Procedimiento canónico para descubrir, importar y federar repos OsoPanda1.",
+  },
+  "atlasng-rfc-0001-federation-module-freeze": {
+    repo: "tamv-atlas-nextgen/docs/rfc",
+    title: "RFC-0001 · Federation Module Freeze",
+    description: "Congelación modular de federaciones y gobernanza de cambios.",
+  },
+  "atlasng-tamv-md-x4-integracion-schedra": {
+    repo: "tamv-atlas-nextgen/docs",
+    title: "TAMV MD-X4 · Integración Schedra",
+    description: "Integración del scheduler Schedra con el runtime federado MD-X4.",
+  },
+  "atlasng-unified_01_platform_and_architecture": {
+    repo: "tamv-atlas-nextgen/docs",
+    title: "Unified 01 · Plataforma y Arquitectura",
+    description: "Capítulo unificado de plataforma y arquitectura del ecosistema TAMV.",
+  },
+  "atlasng-unified_02_services_and_apis": {
+    repo: "tamv-atlas-nextgen/docs",
+    title: "Unified 02 · Servicios y APIs",
+    description: "Catálogo unificado de servicios y contratos API del runtime.",
+  },
+  "atlasng-unified_03_governance_and_security": {
+    repo: "tamv-atlas-nextgen/docs",
+    title: "Unified 03 · Gobernanza y Seguridad",
+    description: "Marco unificado de gobernanza, seguridad y postura antifrágil.",
+  },
+} as const;
+
+Object.assign(META, NG_META);
+
 export const WIKIS: WikiDoc[] = Object.entries(RAW)
   .map(([path, body]) => {
     const slug = path.split("/").pop()!.replace(/\.md$/, "");
