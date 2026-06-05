@@ -1,0 +1,417 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { ComponentType, ReactNode } from "react";
+import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import AuthPage from "@/pages/Auth";
+import { Button } from "@/components/ui/button";
+import { LogIn, LogOut } from "lucide-react";
+import Index from "@/pages/Index";
+import WikiHome from "@/pages/WikiHome";
+import ModuleOverview from "@/pages/ModuleOverview";
+import NotFound from "@/pages/NotFound";
+import CivilizationStreamPage from "@/pages/CivilizationStreamPage";
+import Auditoria from "@/pages/Auditoria";
+import IdentidadDemo from "@/pages/IdentidadDemo";
+import InvestigacionNodo001 from "@/pages/InvestigacionNodo001";
+import ConvergenceHub from "@/pages/ConvergenceHub";
+import FusionRegistry from "@/pages/FusionRegistry";
+import OfertaTAMV from "@/pages/OfertaTAMV";
+import AtlasCore from "@/pages/AtlasCore";
+import IngestionHistory from "@/pages/IngestionHistory";
+import DynamicWikiHome from "@/pages/wiki/WikiHome";
+import WikiPage from "@/pages/wiki/WikiPage";
+import { wikiStructure } from "@/data/wikiStructure";
+import { articleBySlug, getAdjacentArticles } from "@/lib/wikiNavigation";
+
+type WikiModule = {
+  id: number;
+  code: string;
+  path: string;
+  label: string;
+  description: string;
+};
+
+const WIKI_MODULES: WikiModule[] = [
+  { id: 0, code: "MD-X4", path: "/", label: "Módulo 0 · Observabilidad", description: "MD-X4 · Núcleo de observabilidad civilizatoria TAMV." },
+  { id: 1, code: "ISNI-CORE", path: "/modulo/1", label: "Módulo 1 · Fundamentos ISNI", description: "Arquitectura base de la Infraestructura Soberana de Nombres." },
+  { id: 2, code: "ISNI-ARCH", path: "/modulo/2", label: "Módulo 2 · Arquitectura ISNI", description: "Capas, dominios y ontologías del sistema ISNI TAMV." },
+  { id: 3, code: "IDENTITIES", path: "/modulo/3", label: "Módulo 3 · Modelado de Identidades", description: "Personas, instituciones, territorios y roles." },
+  { id: 4, code: "SSI-DID", path: "/modulo/4", label: "Módulo 4 · SSI / DID", description: "Identidad autosoberana y descentralizada en TAMV." },
+  { id: 5, code: "PROFILES", path: "/modulo/5", label: "Módulo 5 · Sistema de Perfiles", description: "Perfiles TAMV, vistas y proyecciones." },
+  { id: 6, code: "FLOWS", path: "/modulo/6", label: "Módulo 6 · Flujos & Visualizaciones", description: "Pipelines y UI de identidades en movimiento." },
+  { id: 7, code: "USE-CASES", path: "/modulo/7", label: "Módulo 7 · Casos de Uso SSI", description: "Aplicaciones en campus, ciudades y metaversos." },
+  { id: 8, code: "APIS", path: "/modulo/8", label: "Módulo 8 · Implementación Técnica / API", description: "Especificación de servicios y endpoints soberanos." },
+  { id: 9, code: "AUTOMATION", path: "/modulo/9", label: "Módulo 9 · Automatización", description: "Bots, orquestación y flujos automáticos." },
+  { id: 10, code: "GOV", path: "/modulo/10", label: "Módulo 10 · Gobernanza & Ética", description: "Normas, principios y modelo de poder distribuido." },
+  { id: 11, code: "REFS", path: "/modulo/11", label: "Módulo 11 · Referencias", description: "Bibliografía, DOIs, ORCID, Zenodo y anexos." },
+  { id: 12, code: "XR-AI", path: "/modulo/12", label: "Módulo 12 · Metaverso / XR / IA", description: "Isabella AI, DreamSpaces, Kórima, DEKATEOTL." },
+  { id: 13, code: "OMEGA", path: "/modulo/13", label: "Módulo Ω · Filosofía e innovación", description: "Manifiesto TAMV, posicionamiento e inteligencia editorial viva." },
+];
+
+const wikiPageModules = import.meta.glob<{ default: ComponentType }>("./pages/wiki/**/*.tsx", {
+  eager: true,
+});
+
+const slugifyFileName = (name: string) =>
+  name
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
+    .toLowerCase();
+
+const discoveredComponents = Object.entries(wikiPageModules).reduce<
+  Record<string, Record<string, ComponentType>>
+>((acc, [path, module]) => {
+  const match = path.match(/\.\/pages\/wiki\/(.+)\/([^/]+)\.tsx$/);
+  if (!match) return acc;
+  const [, sectionId, fileName] = match;
+  const slug = slugifyFileName(fileName);
+  acc[sectionId] ??= {};
+  acc[sectionId][slug] = module.default;
+  return acc;
+}, {});
+
+const aliasByPageKey: Record<string, string> = {
+  "arquitectura/ontologia-formal": "arquitectura/ontologias-datos",
+  "arquitectura/arquitectura-interoperable": "arquitectura/interoperabilidad",
+  "ssi-did/credenciales-vc": "identidad/credenciales-vc",
+  "gobernanza/gobernanza-documental": "gobernanza/gobernanza-datos",
+};
+
+const resolveComponent = (sectionId: string, slug: string) => {
+  const direct = discoveredComponents[sectionId]?.[slug];
+  if (direct) return direct;
+
+  const alias = aliasByPageKey[`${sectionId}/${slug}`];
+  if (!alias) return undefined;
+
+  const [aliasSectionId, aliasSlug] = alias.split("/");
+  return discoveredComponents[aliasSectionId]?.[aliasSlug];
+};
+
+const articleIndex = wikiStructure.flatMap((section, moduleIndex) =>
+  section.children.map((page) => ({
+    moduleId: moduleIndex.toString(),
+    sectionId: section.id,
+    sectionTitle: section.title,
+    slug: page.slug,
+    title: page.title,
+    component: resolveComponent(section.id, page.slug),
+  }))
+);
+
+function ArticleRouter() {
+  const { slug } = useParams();
+  const article = articleIndex.find((item) => item.slug === slug);
+
+  if (!article?.component || !slug) return <Navigate to="/resumen" replace />;
+
+  const canonical = articleBySlug.get(slug);
+  const ArticleComponent = article.component;
+  const { previous, next } = getAdjacentArticles(slug);
+
+  return (
+    <div className="px-6 py-8 md:px-8 lg:px-10 space-y-6">
+      <header className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 md:p-5">
+        <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-blue-300/80">
+          {canonical?.moduleTitle ?? article.sectionTitle}
+        </p>
+        <h1 className="text-xl md:text-2xl font-semibold text-slate-100 mt-1">{article.title}</h1>
+        <p className="text-xs text-slate-400 mt-2">Ruta canónica: /articulo/{article.slug}</p>
+      </header>
+
+      <ArticleComponent />
+
+      <footer className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 flex flex-wrap items-center justify-between gap-3">
+        {previous ? (
+          <Link to={`/articulo/${previous.slug}`} className="text-sm text-slate-300 hover:text-blue-300 transition-colors">
+            ← {previous.title}
+          </Link>
+        ) : (
+          <span className="text-sm text-slate-500">Inicio del atlas</span>
+        )}
+        {next ? (
+          <Link to={`/articulo/${next.slug}`} className="text-sm text-slate-300 hover:text-blue-300 transition-colors ml-auto">
+            {next.title} →
+          </Link>
+        ) : (
+          <span className="text-sm text-slate-500 ml-auto">Fin del atlas</span>
+        )}
+      </footer>
+    </div>
+  );
+}
+
+function LegacyWikiRouter() {
+  const { sectionId, pageSlug } = useParams();
+  if (!sectionId || !pageSlug) return <Navigate to="/resumen" replace />;
+
+  const article = articleIndex.find((item) => item.sectionId === sectionId && item.slug === pageSlug);
+  if (!article) return <Navigate to="/resumen" replace />;
+
+  return <Navigate to={`/articulo/${article.slug}`} replace />;
+}
+
+function AuthHeaderControls() {
+  const { user, signOut, roles } = useAuth();
+  if (!user) {
+    return (
+      <Link
+        to="/auth"
+        className="inline-flex items-center gap-1 text-[10px] text-primary hover:text-primary/80 normal-case tracking-normal"
+      >
+        <LogIn className="w-3 h-3" /> Iniciar sesión
+      </Link>
+    );
+  }
+  return (
+    <div className="flex items-center gap-2 normal-case tracking-normal text-[10px]">
+      <span className="text-muted-foreground">{user.email}</span>
+      {roles[0] && (
+        <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-mono">
+          {roles[0]}
+        </span>
+      )}
+      <button
+        onClick={() => signOut()}
+        className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+        aria-label="Cerrar sesión"
+      >
+        <LogOut className="w-3 h-3" /> salir
+      </button>
+    </div>
+  );
+}
+
+function NavigationControls() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isRoot = location.pathname === "/";
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      size="sm"
+      onClick={() => navigate(-1)}
+      disabled={isRoot}
+      className="h-7 border-blue-500/30 bg-slate-900/60 text-[10px] uppercase tracking-[0.12em] text-slate-200 hover:bg-slate-800 disabled:opacity-50"
+      aria-label="Regresar a la página anterior"
+    >
+      ← Regresar
+    </Button>
+  );
+}
+
+const AppShell = ({ children }: { children: ReactNode }) => (
+  <div className="min-h-screen bg-slate-950 text-slate-200">
+    <header className="border-b border-blue-500/20 bg-slate-950/80 backdrop-blur-md px-4 py-2 flex items-center justify-between text-[11px] tracking-[0.25em] uppercase">
+      <div className="flex items-center gap-3">
+        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_#4ade80]" />
+        <NavigationControls />
+        <span className="text-slate-400">TAMV·ONLINE // Digital Civilization System v1.0</span>
+      </div>
+      <div className="flex items-center gap-4">
+        <span className="text-blue-400/80 hidden md:inline">Kernel: MD-X · ISNI · UTAMV · Isabella</span>
+        <AuthHeaderControls />
+      </div>
+    </header>
+
+    <div className="grid grid-cols-12 gap-0 h-[calc(100vh-40px)]">
+      <aside className="hidden lg:block col-span-2 border-r border-slate-800 bg-slate-950/90 backdrop-blur-sm text-[11px]">
+        <div className="px-4 py-3 border-b border-slate-800">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Atlas TAMV · ISNI</p>
+          <p className="text-[9px] text-slate-500">14 módulos · ~66 artículos · Infraestructura viva</p>
+        </div>
+        <nav className="overflow-y-auto h-[calc(100vh-88px)] scrollbar-thin">
+          <ul className="py-2">
+            {WIKI_MODULES.map((mod) => (
+              <li key={mod.id}>
+                <NavLink
+                  to={mod.path}
+                  className={({ isActive }) =>
+                    `flex flex-col gap-0.5 px-4 py-2 border-l-2 transition-colors ${
+                      isActive
+                        ? "border-blue-500 bg-slate-900/70"
+                        : "border-transparent hover:border-blue-500/70 hover:bg-slate-900/60"
+                    }`
+                  }
+                >
+                  <span className="text-[9px] text-blue-400">{mod.code}</span>
+                  <span className="text-[10px] text-slate-200">{mod.label}</span>
+                  <span className="text-[9px] text-slate-500 line-clamp-1">{mod.description}</span>
+                </NavLink>
+              </li>
+            ))}
+            <li>
+              <NavLink
+                to="/hub"
+                className={({ isActive }) =>
+                  `flex flex-col gap-0.5 px-4 py-2 border-l-2 transition-colors ${
+                    isActive
+                      ? "border-primary bg-slate-900/70"
+                      : "border-transparent hover:border-primary/70 hover:bg-slate-900/60"
+                  }`
+                }
+              >
+                <span className="text-[9px] text-primary">CONV-HUB</span>
+                <span className="text-[10px] text-slate-200">Convergence Hub · ISNI</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Zenodo · OpenAIRE · Figshare · ORCID en vivo.</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/fusion"
+                className={({ isActive }) =>
+                  `flex flex-col gap-0.5 px-4 py-2 border-l-2 transition-colors ${
+                    isActive
+                      ? "border-primary bg-slate-900/70"
+                      : "border-transparent hover:border-primary/70 hover:bg-slate-900/60"
+                  }`
+                }
+              >
+                <span className="text-[9px] text-primary">FUSION-CORE</span>
+                <span className="text-[10px] text-slate-200">Registro de Fusión</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">tamv-digital-nexus + tamv-the-federated-frontier unificados.</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/atlas-core"
+                className={({ isActive }) =>
+                  `flex flex-col gap-0.5 px-4 py-2 border-l-2 transition-colors ${
+                    isActive
+                      ? "border-cyan-400 bg-slate-900/70"
+                      : "border-transparent hover:border-cyan-500/70 hover:bg-slate-900/60"
+                  }`
+                }
+              >
+                <span className="text-[9px] text-cyan-300">ATLAS-CORE</span>
+                <span className="text-[10px] text-slate-200">CSP-α · Canon + Graph + BookPI</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Ingesta de OsoPanda1/* + self-assembly de topologías.</span>
+              </NavLink>
+            </li>
+            <li>
+              <Link
+                to="/resumen"
+                className="flex flex-col gap-0.5 px-4 py-2 border-l-2 border-transparent hover:border-blue-500/70 hover:bg-slate-900/60 transition-colors"
+              >
+                <span className="text-[9px] text-blue-400">ATLAS-INDEX</span>
+                <span className="text-[10px] text-slate-200">Resumen e índice global</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Navega módulos y artículos enlazables.</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/wiki"
+                className="flex flex-col gap-0.5 px-4 py-2 border-l-2 border-transparent hover:border-emerald-500/70 hover:bg-slate-900/60 transition-colors"
+              >
+                <span className="text-[9px] text-emerald-400">WIKI-GEN</span>
+                <span className="text-[10px] text-slate-200">Wiki dinámica TAMV</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Secciones y subpáginas autogeneradas por esquema.</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/stream"
+                className="flex flex-col gap-0.5 px-4 py-2 border-l-2 border-transparent hover:border-blue-500/70 hover:bg-slate-900/60 transition-colors"
+              >
+                <span className="text-[9px] text-blue-400">CIV-STREAM</span>
+                <span className="text-[10px] text-slate-200">Paginación civilizatoria</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Timeline por módulos, filtros por rol y Flow Lens.</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/auditoria"
+                className="flex flex-col gap-0.5 px-4 py-2 border-l-2 border-transparent hover:border-accent/70 hover:bg-slate-900/60 transition-colors"
+              >
+                <span className="text-[9px] text-accent">AUDIT-MAX</span>
+                <span className="text-[10px] text-slate-200">Auditoría Máxima v1.0</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Dashboard de avance + blindaje legal UNESCO/GDPR/ICCPR/UNDRIP.</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/identidad-demo"
+                className="flex flex-col gap-0.5 px-4 py-2 border-l-2 border-transparent hover:border-primary/70 hover:bg-slate-900/60 transition-colors"
+              >
+                <span className="text-[9px] text-primary">SSI-FLOW</span>
+                <span className="text-[10px] text-slate-200">Demo identidad E2E</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Firma y verificación de credenciales UTAMV con DID.</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/oferta"
+                className="flex flex-col gap-0.5 px-4 py-2 border-l-2 border-transparent hover:border-cyan-500/70 hover:bg-slate-900/60 transition-colors"
+              >
+                <span className="text-[9px] text-cyan-300">TAMV-OFFER</span>
+                <span className="text-[10px] text-slate-200">Oferta TAMV por perfil</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Catálogo funcional filtrable por tipo de usuario.</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/investigacion/nodo-001"
+                className="flex flex-col gap-0.5 px-4 py-2 border-l-2 border-transparent hover:border-primary/70 hover:bg-slate-900/60 transition-colors"
+              >
+                <span className="text-[9px] text-primary">RESEARCH-001</span>
+                <span className="text-[10px] text-slate-200">Informe Nodo 001</span>
+                <span className="text-[9px] text-slate-500 line-clamp-1">Matriz de evidencia y verificaciones pendientes.</span>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main className="col-span-12 lg:col-span-10 h-full overflow-auto">{children}</main>
+    </div>
+  </div>
+);
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <TooltipProvider>
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/auth" element={<AuthPage />} />
+            <Route
+              path="*"
+              element={
+                <AppShell>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/resumen" element={<WikiHome />} />
+                    <Route path="/wiki" element={<DynamicWikiHome />} />
+                    <Route path="/wiki/:sectionId" element={<WikiPage />} />
+                    <Route path="/wiki/:sectionId/:slug" element={<WikiPage />} />
+                    <Route path="/stream" element={<CivilizationStreamPage />} />
+                    <Route path="/auditoria" element={<Auditoria />} />
+                    <Route path="/identidad-demo" element={<IdentidadDemo />} />
+                    <Route path="/investigacion/nodo-001" element={<InvestigacionNodo001 />} />
+                    <Route path="/hub" element={<ConvergenceHub />} />
+                    <Route path="/oferta" element={<OfertaTAMV />} />
+                    <Route path="/atlas-core" element={<AtlasCore />} />
+                    <Route path="/atlas-core/historial" element={<IngestionHistory />} />
+                    <Route path="/modulo/:id" element={<ModuleOverview />} />
+                    <Route path="/articulo/:slug" element={<ArticleRouter />} />
+                    <Route path="/wiki-legacy/:sectionId/:pageSlug" element={<LegacyWikiRouter />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </AppShell>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
+  </QueryClientProvider>
+);
+
+export default App;

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Public wiki indexable by search engines
+Sitemap: https://tamv-atlas.org/sitemap.xml
