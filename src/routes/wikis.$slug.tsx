@@ -15,9 +15,8 @@ export const Route = createFileRoute("/wikis/$slug")({
     };
   },
   loader: ({ params }) => {
-    const w = getWiki(params.slug);
-    if (!w) throw notFound();
-    return { wiki: w };
+    if (!getWiki(params.slug)) throw notFound();
+    return null;
   },
   notFoundComponent: () => (
     <div className="max-w-3xl">
@@ -42,7 +41,8 @@ export const Route = createFileRoute("/wikis/$slug")({
 marked.setOptions({ gfm: true, breaks: false });
 
 function WikiEntry() {
-  const { wiki } = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const wiki = getWiki(slug)!;
   const html = marked.parse(wiki.body) as string;
   return (
     <article className="max-w-4xl">
