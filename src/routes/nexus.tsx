@@ -9,7 +9,11 @@ export const Route = createFileRoute("/nexus")({
   head: () => ({
     meta: [
       { title: "Nexus Graph · TAMV Core Kodex" },
-      { name: "description", content: "Knowledge graph of the TAMV ecosystem: sovereign entities, federations, lineage and dependencies." },
+      {
+        name: "description",
+        content:
+          "Knowledge graph of the TAMV ecosystem: sovereign entities, federations, lineage and dependencies.",
+      },
       { property: "og:title", content: "Nexus Graph · TAMV" },
       { property: "og:description", content: "Live knowledge graph of sovereign entities." },
     ],
@@ -21,9 +25,7 @@ function NexusPage() {
   const [filter, setFilter] = useState<FederationId | null>(null);
   const [selected, setSelected] = useState<Entity | null>(null);
   const focus = selected;
-  const related = focus
-    ? EDGES.filter((e) => e.from === focus.id || e.to === focus.id)
-    : [];
+  const related = focus ? EDGES.filter((e) => e.from === focus.id || e.to === focus.id) : [];
 
   return (
     <div>
@@ -39,7 +41,9 @@ function NexusPage() {
               onClick={() => setFilter(null)}
               className={cn(
                 "mono text-[10px] uppercase tracking-wider px-2.5 py-1.5 rounded-sm border",
-                filter === null ? "border-primary text-foreground bg-primary/10" : "border-border text-muted-foreground hover:text-foreground",
+                filter === null
+                  ? "border-primary text-foreground bg-primary/10"
+                  : "border-border text-muted-foreground hover:text-foreground",
               )}
             >
               ALL
@@ -50,7 +54,9 @@ function NexusPage() {
                 onClick={() => setFilter(f.id)}
                 className={cn(
                   "mono text-[10px] uppercase tracking-wider px-2.5 py-1.5 rounded-sm border transition-colors",
-                  filter === f.id ? "border-primary text-foreground bg-primary/10" : "border-border text-muted-foreground hover:text-foreground",
+                  filter === f.id
+                    ? "border-primary text-foreground bg-primary/10"
+                    : "border-border text-muted-foreground hover:text-foreground",
                 )}
               >
                 <span style={{ color: f.accent }}>●</span> {f.code} {f.name}
@@ -84,9 +90,13 @@ function NexusPage() {
               {FEDERATIONS.map((f) => (
                 <li key={f.id} className="flex items-center gap-3 px-4 py-2.5 text-xs">
                   <span className="h-2 w-2 rounded-full" style={{ background: f.accent }} />
-                  <span className="mono text-[10px] uppercase tracking-wider w-8 text-muted-foreground">{f.code}</span>
+                  <span className="mono text-[10px] uppercase tracking-wider w-8 text-muted-foreground">
+                    {f.code}
+                  </span>
                   <span className="flex-1 truncate">{f.name}</span>
-                  <span className="mono text-[10px] text-muted-foreground tabular">{ENTITIES.filter((e) => e.federation === f.id).length}</span>
+                  <span className="mono text-[10px] text-muted-foreground tabular">
+                    {ENTITIES.filter((e) => e.federation === f.id).length}
+                  </span>
                 </li>
               ))}
             </ul>

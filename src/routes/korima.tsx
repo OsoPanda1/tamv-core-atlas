@@ -6,7 +6,10 @@ export const Route = createFileRoute("/korima")({
   head: () => ({
     meta: [
       { title: "Korima Engine · TAMV Core Kodex" },
-      { name: "description", content: "Ontology validation, lexicon explorer and constitutional constraints engine." },
+      {
+        name: "description",
+        content: "Ontology validation, lexicon explorer and constitutional constraints engine.",
+      },
       { property: "og:title", content: "Korima Engine · TAMV" },
       { property: "og:description", content: "Semantic integrity for the TAMV canon." },
     ],
@@ -75,58 +78,88 @@ function KorimaPage() {
                 {LEXEMES.map((l) => (
                   <tr key={l.term} className="hover:bg-secondary/40">
                     <td className="px-4 py-2.5">{l.term}</td>
-                    <td className="px-4 py-2.5 mono text-[11px] uppercase tracking-wider text-muted-foreground">{l.domain}</td>
+                    <td className="px-4 py-2.5 mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                      {l.domain}
+                    </td>
                     <td className="px-4 py-2.5">
-                      <span className={
-                        l.status === "canon"
-                          ? "mono text-[10px] uppercase tracking-wider text-success"
-                          : l.status === "conflict"
-                            ? "mono text-[10px] uppercase tracking-wider text-destructive"
-                            : "mono text-[10px] uppercase tracking-wider text-warning"
-                      }>
+                      <span
+                        className={
+                          l.status === "canon"
+                            ? "mono text-[10px] uppercase tracking-wider text-success"
+                            : l.status === "conflict"
+                              ? "mono text-[10px] uppercase tracking-wider text-destructive"
+                              : "mono text-[10px] uppercase tracking-wider text-warning"
+                        }
+                      >
                         {l.status}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5 text-right mono tabular text-muted-foreground">{l.refs}</td>
+                    <td className="px-4 py-2.5 text-right mono tabular text-muted-foreground">
+                      {l.refs}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </Panel>
 
-          <Panel eyebrow="CONSTITUTIONAL CONSTRAINTS" title="Reglas estrictas activas" bodyClassName="p-0">
+          <Panel
+            eyebrow="CONSTITUTIONAL CONSTRAINTS"
+            title="Reglas estrictas activas"
+            bodyClassName="p-0"
+          >
             <ul className="divide-y divide-border">
               {CONSTRAINTS.map((c) => (
                 <li key={c.id} className="px-4 py-3">
                   <div className="flex items-center justify-between">
-                    <span className="mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.id}</span>
+                    <span className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {c.id}
+                    </span>
                     <CheckCircle2 className="h-3.5 w-3.5 text-success" />
                   </div>
                   <div className="mt-1 text-sm">{c.rule}</div>
-                  <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.scope}</div>
+                  <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    {c.scope}
+                  </div>
                 </li>
               ))}
             </ul>
           </Panel>
         </div>
 
-        <Panel eyebrow="ONTOLOGY · CONFLICTS" title="Bandeja de conflictos ontológicos" bodyClassName="p-0">
+        <Panel
+          eyebrow="ONTOLOGY · CONFLICTS"
+          title="Bandeja de conflictos ontológicos"
+          bodyClassName="p-0"
+        >
           <ul className="divide-y divide-border">
             <li className="px-4 py-3 flex items-start gap-3">
               <AlertTriangle className="h-4 w-4 text-warning mt-0.5" />
               <div className="flex-1">
-                <div className="text-sm">Lexema "sovereignty" en uso anglosajón sin mapeo canónico a "soberanía".</div>
-                <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mt-1">propuesta · alias bidireccional · trust impact +0.2</div>
+                <div className="text-sm">
+                  Lexema "sovereignty" en uso anglosajón sin mapeo canónico a "soberanía".
+                </div>
+                <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mt-1">
+                  propuesta · alias bidireccional · trust impact +0.2
+                </div>
               </div>
-              <button className="mono text-[10px] uppercase tracking-wider rounded-sm border border-border bg-secondary px-2 py-1 hover:bg-secondary/70">Resolve</button>
+              <button className="mono text-[10px] uppercase tracking-wider rounded-sm border border-border bg-secondary px-2 py-1 hover:bg-secondary/70">
+                Resolve
+              </button>
             </li>
             <li className="px-4 py-3 flex items-start gap-3">
               <AlertTriangle className="h-4 w-4 text-warning mt-0.5" />
               <div className="flex-1">
-                <div className="text-sm">Definición duplicada para "Nodo Cero" entre Tomo II y Wiki Central.</div>
-                <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mt-1">propuesta · unificar a Tomo II como fuente canónica</div>
+                <div className="text-sm">
+                  Definición duplicada para "Nodo Cero" entre Tomo II y Wiki Central.
+                </div>
+                <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mt-1">
+                  propuesta · unificar a Tomo II como fuente canónica
+                </div>
               </div>
-              <button className="mono text-[10px] uppercase tracking-wider rounded-sm border border-border bg-secondary px-2 py-1 hover:bg-secondary/70">Resolve</button>
+              <button className="mono text-[10px] uppercase tracking-wider rounded-sm border border-border bg-secondary px-2 py-1 hover:bg-secondary/70">
+                Resolve
+              </button>
             </li>
           </ul>
         </Panel>

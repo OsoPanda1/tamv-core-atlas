@@ -68,8 +68,22 @@ export function NexusGraph({ height = 560, highlightFederation, onSelect }: Nexu
         </defs>
 
         <circle cx={cx} cy={cy} r={120} fill="url(#coreGlow)" />
-        <circle cx={cx} cy={cy} r={210} fill="none" stroke="oklch(0.28 0.012 250)" strokeDasharray="2 6" />
-        <circle cx={cx} cy={cy} r={310} fill="none" stroke="oklch(0.24 0.012 250)" strokeDasharray="2 6" />
+        <circle
+          cx={cx}
+          cy={cy}
+          r={210}
+          fill="none"
+          stroke="oklch(0.28 0.012 250)"
+          strokeDasharray="2 6"
+        />
+        <circle
+          cx={cx}
+          cy={cy}
+          r={310}
+          fill="none"
+          stroke="oklch(0.24 0.012 250)"
+          strokeDasharray="2 6"
+        />
 
         {/* federation labels */}
         {FEDERATIONS.map((fed, fi) => {
@@ -142,13 +156,7 @@ export function NexusGraph({ height = 560, highlightFederation, onSelect }: Nexu
                 strokeWidth={1.5}
               />
               {active && (
-                <text
-                  x={10}
-                  y={4}
-                  fontSize="11"
-                  fill="oklch(0.94 0.01 90)"
-                  className="mono"
-                >
+                <text x={10} y={4} fontSize="11" fill="oklch(0.94 0.01 90)" className="mono">
                   {entity.name}
                 </text>
               )}
@@ -157,10 +165,26 @@ export function NexusGraph({ height = 560, highlightFederation, onSelect }: Nexu
         })}
 
         {/* core label */}
-        <text x={cx} y={cy - 4} textAnchor="middle" fontSize="11" className="mono" letterSpacing="0.2em" fill="oklch(0.78 0.04 230)">
+        <text
+          x={cx}
+          y={cy - 4}
+          textAnchor="middle"
+          fontSize="11"
+          className="mono"
+          letterSpacing="0.2em"
+          fill="oklch(0.78 0.04 230)"
+        >
           NODO CERO
         </text>
-        <text x={cx} y={cy + 12} textAnchor="middle" fontSize="9" className="mono" letterSpacing="0.18em" fill="oklch(0.66 0.015 240)">
+        <text
+          x={cx}
+          y={cy + 12}
+          textAnchor="middle"
+          fontSize="9"
+          className="mono"
+          letterSpacing="0.18em"
+          fill="oklch(0.66 0.015 240)"
+        >
           KODEX CORE · TAMV-K5
         </text>
       </svg>

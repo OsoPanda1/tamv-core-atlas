@@ -34,7 +34,9 @@ function renderSummary(meta: RepoMeta): string {
     "## Commands",
     "",
     Object.keys(meta.commands).length
-      ? Object.entries(meta.commands).map(([k, v]) => `- **${k}**: \`${v}\``).join("\n")
+      ? Object.entries(meta.commands)
+          .map(([k, v]) => `- **${k}**: \`${v}\``)
+          .join("\n")
       : "_none detected_",
     "",
     "## Relations",
@@ -84,7 +86,6 @@ async function main() {
 
   await audit("publish.complete", { total: repos.length, errors: errors.length, validateOnly });
 
-  // eslint-disable-next-line no-console
   console.log(
     `${validateOnly ? "validated" : "published"} ${repos.length} repos${errors.length ? ` with ${errors.length} errors` : ""}`,
   );
@@ -93,7 +94,6 @@ async function main() {
 
 main().catch(async (err) => {
   await audit("publish.fatal", { error: String(err) });
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

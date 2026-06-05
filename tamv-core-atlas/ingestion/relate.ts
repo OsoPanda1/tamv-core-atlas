@@ -55,13 +55,11 @@ async function main() {
 
   await writeJsonAtomic(PATHS.graphJson, { nodes, edges });
   await audit("relate.complete", { nodes: nodes.length, edges: edges.length });
-  // eslint-disable-next-line no-console
   console.log(`graph built: ${nodes.length} nodes, ${edges.length} edges`);
 }
 
 main().catch(async (err) => {
   await audit("relate.fatal", { error: String(err) });
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

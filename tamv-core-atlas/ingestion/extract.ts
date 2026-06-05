@@ -5,13 +5,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { PATHS } from "./config.js";
 import { RepoInputSchema, RepoMetaSchema, type Stack } from "./schemas.js";
-import {
-  audit,
-  readJsonIfExists,
-  readTextFileSafe,
-  safeSlug,
-  writeJsonAtomic,
-} from "./safe-fs.js";
+import { audit, readJsonIfExists, readTextFileSafe, safeSlug, writeJsonAtomic } from "./safe-fs.js";
 
 function detectStackFromPackageJson(pkg: Record<string, unknown>): Stack {
   const deps = {
@@ -118,13 +112,11 @@ async function main() {
       await audit("extract.error", { repo: r.name, error: String(err) });
     }
   }
-  // eslint-disable-next-line no-console
   console.log(`extracted signals for ${repos.length} repos`);
 }
 
 main().catch(async (err) => {
   await audit("extract.fatal", { error: String(err) });
-  // eslint-disable-next-line no-console
   console.error(err);
   process.exit(1);
 });

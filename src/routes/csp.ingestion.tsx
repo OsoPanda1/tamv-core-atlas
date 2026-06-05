@@ -10,7 +10,10 @@ export const Route = createFileRoute("/csp/ingestion")({
   head: () => ({
     meta: [
       { title: "Semantic Ingestion Engine · CSP-α" },
-      { name: "description", content: "Capa 0. Repos, manifests y webhooks normalizados a entidades canon." },
+      {
+        name: "description",
+        content: "Capa 0. Repos, manifests y webhooks normalizados a entidades canon.",
+      },
     ],
   }),
   component: IngestionPage,
@@ -68,9 +71,21 @@ function IngestionPage() {
       <div className="p-6 space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <Stat label="SOURCES" value={all.length} hint="Activas + cola" />
-          <Stat label="FILES SCANNED" value={INGESTION_SOURCES.reduce((a, s) => a + s.files, 0)} hint="MD · YAML · package.json" />
-          <Stat label="ENTITIES EXTRACTED" value={INGESTION_SOURCES.reduce((a, s) => a + s.entitiesExtracted, 0)} hint="→ Canon Registry" />
-          <Stat label="FAILED" value={INGESTION_SOURCES.filter((s) => s.status === "failed").length} hint="Reintento manual" />
+          <Stat
+            label="FILES SCANNED"
+            value={INGESTION_SOURCES.reduce((a, s) => a + s.files, 0)}
+            hint="MD · YAML · package.json"
+          />
+          <Stat
+            label="ENTITIES EXTRACTED"
+            value={INGESTION_SOURCES.reduce((a, s) => a + s.entitiesExtracted, 0)}
+            hint="→ Canon Registry"
+          />
+          <Stat
+            label="FAILED"
+            value={INGESTION_SOURCES.filter((s) => s.status === "failed").length}
+            hint="Reintento manual"
+          />
         </div>
 
         <Panel eyebrow="REPO INGESTION" title="Conectar fuente">
@@ -89,7 +104,10 @@ function IngestionPage() {
             </button>
           </form>
           <p className="mt-3 text-[11px] text-muted-foreground">
-            Encolar genera traceId nuevo, persiste en BookPI como <span className="mono">INGESTION</span> y dispara <span className="mono">SemanticExtractor → CanonRegistry → Neo4j → Qdrant</span> al estar conectado el backend NestJS.
+            Encolar genera traceId nuevo, persiste en BookPI como{" "}
+            <span className="mono">INGESTION</span> y dispara{" "}
+            <span className="mono">SemanticExtractor → CanonRegistry → Neo4j → Qdrant</span> al
+            estar conectado el backend NestJS.
           </p>
         </Panel>
 
@@ -113,18 +131,34 @@ function IngestionPage() {
                 return (
                   <tr key={s.id} className="border-b border-border/60 hover:bg-secondary/30">
                     <td className="px-4 py-3 mono text-[11px] truncate max-w-[320px]">{s.url}</td>
-                    <td className="px-4 py-3 mono text-[10px] uppercase tracking-wider text-muted-foreground">{s.kind}</td>
+                    <td className="px-4 py-3 mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {s.kind}
+                    </td>
                     <td className="px-4 py-3 text-foreground/80">
                       <span className="inline-flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full" style={{ background: fed.accent }} />
+                        <span
+                          className="h-1.5 w-1.5 rounded-full"
+                          style={{ background: fed.accent }}
+                        />
                         {fed.name}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right mono text-[11px] tabular text-muted-foreground">{s.files}</td>
-                    <td className="px-4 py-3 text-right mono text-[11px] tabular text-foreground">{s.entitiesExtracted}</td>
-                    <td className="px-4 py-3 mono text-[10px] text-muted-foreground truncate max-w-[180px]">{s.traceId}</td>
+                    <td className="px-4 py-3 text-right mono text-[11px] tabular text-muted-foreground">
+                      {s.files}
+                    </td>
+                    <td className="px-4 py-3 text-right mono text-[11px] tabular text-foreground">
+                      {s.entitiesExtracted}
+                    </td>
+                    <td className="px-4 py-3 mono text-[10px] text-muted-foreground truncate max-w-[180px]">
+                      {s.traceId}
+                    </td>
                     <td className="px-4 py-3">
-                      <span className={cn("inline-flex items-center gap-1.5 mono text-[10px] uppercase tracking-wider", STATUS_COLOR[s.status])}>
+                      <span
+                        className={cn(
+                          "inline-flex items-center gap-1.5 mono text-[10px] uppercase tracking-wider",
+                          STATUS_COLOR[s.status],
+                        )}
+                      >
                         <Icon className={cn("h-3 w-3", s.status === "running" && "animate-spin")} />
                         {s.status}
                       </span>

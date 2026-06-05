@@ -10,7 +10,10 @@ export const Route = createFileRoute("/csp/canon")({
   head: () => ({
     meta: [
       { title: "Canon Registry · CSP-α" },
-      { name: "description", content: "Capa 1. Canonización determinista: ID, tipo, federación, hash, dependencias." },
+      {
+        name: "description",
+        content: "Capa 1. Canonización determinista: ID, tipo, federación, hash, dependencias.",
+      },
     ],
   }),
   component: CanonPage,
@@ -50,7 +53,9 @@ function CanonPage() {
               onClick={() => setFilter(null)}
               className={cn(
                 "mono text-[10px] uppercase tracking-wider px-2.5 py-2 rounded-sm border",
-                filter === null ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:text-foreground",
+                filter === null
+                  ? "border-primary bg-primary/10 text-foreground"
+                  : "border-border text-muted-foreground hover:text-foreground",
               )}
             >
               ALL
@@ -61,7 +66,9 @@ function CanonPage() {
                 onClick={() => setFilter(f.id)}
                 className={cn(
                   "mono text-[10px] uppercase tracking-wider px-2.5 py-2 rounded-sm border",
-                  filter === f.id ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:text-foreground",
+                  filter === f.id
+                    ? "border-primary bg-primary/10 text-foreground"
+                    : "border-border text-muted-foreground hover:text-foreground",
                 )}
               >
                 <span style={{ color: f.accent }}>●</span> {f.code}
@@ -92,16 +99,27 @@ function CanonPage() {
                         active ? "bg-secondary/60" : "hover:bg-secondary/30",
                       )}
                     >
-                      <td className="px-4 py-3 mono text-[11px] text-foreground truncate max-w-[280px]">{c.id}</td>
-                      <td className="px-4 py-3 mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.type}</td>
+                      <td className="px-4 py-3 mono text-[11px] text-foreground truncate max-w-[280px]">
+                        {c.id}
+                      </td>
+                      <td className="px-4 py-3 mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                        {c.type}
+                      </td>
                       <td className="px-4 py-3">
                         <span className="inline-flex items-center gap-1.5">
-                          <span className="h-1.5 w-1.5 rounded-full" style={{ background: fed.accent }} />
+                          <span
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{ background: fed.accent }}
+                          />
                           <span className="text-foreground/80">{fed.name}</span>
                         </span>
                       </td>
-                      <td className="px-4 py-3 mono text-[10px] tabular text-muted-foreground">{c.hash}</td>
-                      <td className="px-4 py-3 text-right mono text-[11px] tabular text-muted-foreground">{c.dependencies.length}</td>
+                      <td className="px-4 py-3 mono text-[10px] tabular text-muted-foreground">
+                        {c.hash}
+                      </td>
+                      <td className="px-4 py-3 text-right mono text-[11px] tabular text-muted-foreground">
+                        {c.dependencies.length}
+                      </td>
                     </tr>
                   );
                 })}
@@ -114,35 +132,53 @@ function CanonPage() {
           <Panel eyebrow="INSPECTOR" title={selected ? selected.canonicalId : "—"}>
             {selected ? (
               <div className="space-y-4 text-sm">
-                <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground break-all">{selected.id}</div>
+                <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground break-all">
+                  {selected.id}
+                </div>
                 <p className="text-foreground/85 leading-relaxed">{selected.description}</p>
                 <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
-                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">type</dt>
+                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    type
+                  </dt>
                   <dd className="text-foreground/90">{selected.type}</dd>
-                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">federation</dt>
+                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    federation
+                  </dt>
                   <dd className="text-foreground/90">{federationById(selected.federation).name}</dd>
-                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">hash</dt>
+                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    hash
+                  </dt>
                   <dd className="mono text-foreground/90 tabular">{selected.hash}</dd>
-                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">canonical</dt>
+                  <dt className="mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    canonical
+                  </dt>
                   <dd className="mono text-success">true</dd>
                 </dl>
                 <div>
-                  <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">dependencies</div>
+                  <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">
+                    dependencies
+                  </div>
                   {selected.dependencies.length === 0 ? (
                     <div className="mono text-[11px] text-muted-foreground/70">— ninguna</div>
                   ) : (
                     <ul className="space-y-1">
                       {selected.dependencies.map((d) => (
-                        <li key={d} className="mono text-[11px] text-foreground/90 truncate">{d}</li>
+                        <li key={d} className="mono text-[11px] text-foreground/90 truncate">
+                          {d}
+                        </li>
                       ))}
                     </ul>
                   )}
                 </div>
                 <div>
-                  <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">sourceRefs</div>
+                  <div className="mono text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">
+                    sourceRefs
+                  </div>
                   <ul className="space-y-1">
                     {selected.sourceRefs.map((s) => (
-                      <li key={s} className="mono text-[11px] text-foreground/80 truncate">{s}</li>
+                      <li key={s} className="mono text-[11px] text-foreground/80 truncate">
+                        {s}
+                      </li>
                     ))}
                   </ul>
                 </div>
