@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WikisRouteImport } from './routes/wikis'
+import { Route as UnificationRouteImport } from './routes/unification'
 import { Route as NexusRouteImport } from './routes/nexus'
 import { Route as Mdx5RouteImport } from './routes/mdx5'
 import { Route as KorimaRouteImport } from './routes/korima'
@@ -31,6 +32,11 @@ import { Route as CspAssemblyRouteImport } from './routes/csp.assembly'
 const WikisRoute = WikisRouteImport.update({
   id: '/wikis',
   path: '/wikis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnificationRoute = UnificationRouteImport.update({
+  id: '/unification',
+  path: '/unification',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NexusRoute = NexusRouteImport.update({
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/unification': typeof UnificationRoute
   '/wikis': typeof WikisRouteWithChildren
   '/csp/assembly': typeof CspAssemblyRoute
   '/csp/canon': typeof CspCanonRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/unification': typeof UnificationRoute
   '/wikis': typeof WikisRouteWithChildren
   '/csp/assembly': typeof CspAssemblyRoute
   '/csp/canon': typeof CspCanonRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/korima': typeof KorimaRoute
   '/mdx5': typeof Mdx5Route
   '/nexus': typeof NexusRoute
+  '/unification': typeof UnificationRoute
   '/wikis': typeof WikisRouteWithChildren
   '/csp/assembly': typeof CspAssemblyRoute
   '/csp/canon': typeof CspCanonRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/unification'
     | '/wikis'
     | '/csp/assembly'
     | '/csp/canon'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/unification'
     | '/wikis'
     | '/csp/assembly'
     | '/csp/canon'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/korima'
     | '/mdx5'
     | '/nexus'
+    | '/unification'
     | '/wikis'
     | '/csp/assembly'
     | '/csp/canon'
@@ -254,6 +266,7 @@ export interface RootRouteChildren {
   KorimaRoute: typeof KorimaRoute
   Mdx5Route: typeof Mdx5Route
   NexusRoute: typeof NexusRoute
+  UnificationRoute: typeof UnificationRoute
   WikisRoute: typeof WikisRouteWithChildren
   CspAssemblyRoute: typeof CspAssemblyRoute
   CspCanonRoute: typeof CspCanonRoute
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/wikis'
       fullPath: '/wikis'
       preLoaderRoute: typeof WikisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/unification': {
+      id: '/unification'
+      path: '/unification'
+      fullPath: '/unification'
+      preLoaderRoute: typeof UnificationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/nexus': {
@@ -424,6 +444,7 @@ const rootRouteChildren: RootRouteChildren = {
   KorimaRoute: KorimaRoute,
   Mdx5Route: Mdx5Route,
   NexusRoute: NexusRoute,
+  UnificationRoute: UnificationRoute,
   WikisRoute: WikisRouteWithChildren,
   CspAssemblyRoute: CspAssemblyRoute,
   CspCanonRoute: CspCanonRoute,
