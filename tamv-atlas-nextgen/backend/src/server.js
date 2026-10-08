@@ -7,15 +7,13 @@ import { buildDidDocument, buildOrganizationIdentity } from './identityRegistry.
 import { loadPidStatus } from './pidConnectors.js';
 import { discoverFusionPlan, executeFusion } from './repoFusionService.js';
 import { AtlasStore } from './atlasStore.js';
-import { AtlasKernelRuntime } from './atlasKernelRuntime.js';
-import { createIsabellaEngine } from './isabellaEngine.js';
-import { createOmniKernelGateway } from './omniKernelGateway.js';
+import { createAtlasCoreRuntime } from './tamvCoreRuntime.js';
 
 const signingEngine = buildSigningEngine(config.signing.seed);
 const orgIdentity = buildOrganizationIdentity(config, signingEngine.profile);
-const atlasKernel = new AtlasKernelRuntime();
-const isabellaEngine = createIsabellaEngine();
-const omniKernelGateway = createOmniKernelGateway();
+const coreRuntime = createAtlasCoreRuntime();
+const atlasKernel = coreRuntime.atlas;
+const isabellaEngine = coreRuntime.isabella;
 const atlasStoreConfig = {
   supabaseUrl: process.env.SUPABASE_URL,
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -120,6 +118,37 @@ const server = createServer(async (req, res) => {
 
   if (req.method === 'OPTIONS') {
     return writeJson(res, 200, { ok: true });
+  }
+
+  if (req.method === 'GET' && url.pathname === '/v1/core/status') {
+    return writeJson(res, 200, coreRuntime.health());
+  }
+  if (req.method === 'GET' && url.pathname === '/v1/core/modules') {
+    return writeJson(res, 200, { modules: coreRuntime.modules.list() });
+  }
+  if (req.method === 'GET' && url.pathname === '/v1/core/skills') {
+    return writeJson(res, 200, { skills: coreRuntime.skills.list() });
+  }
+  if (req.method === 'GET' && url.pathname === '/v1/core/protocols') {
+    return writeJson(res, 200, { protocols: coreRuntime.protocols.list() });
+  }
+  if (req.method === 'POST' && url.pathname === '/v1/core/skills/execute') {
+    try {
+      const body = await parseJsonBody(req);
+      const result = await coreRuntime.executeSkill(body.skillId, body.context ?? body);
+      return writeJson(res, 200, { result, monitoring: coreRuntime.monitor.snapshot() });
+    } catch (error) {
+      return writeJson(res, 400, { error: error instanceof Error ? error.message : 'Skill execution failed' });
+    }
+  }
+  if (req.method === 'POST' && url.pathname === '/v1/core/protocols/execute') {
+    try {
+      const body = await parseJsonBody(req);
+      const result = await coreRuntime.executeProtocol(body.protocolId, body.context ?? body);
+      return writeJson(res, 200, { result, monitoring: coreRuntime.monitor.snapshot() });
+    } catch (error) {
+      return writeJson(res, 400, { error: error instanceof Error ? error.message : 'Protocol execution failed' });
+    }
   }
 
   if (req.method === 'GET' && url.pathname === '/healthz') {
