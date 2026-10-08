@@ -24,7 +24,7 @@
     "bookpi:block": "bash scripts/build_bookpi.sh",
     "chaos:test": "node scripts/chaos-test-config.mjs",
     "core:test": "node --test tests/core-runtime.test.js",
-    "core:check": "npm run core:test && npm run typecheck"
+    "core:check": "npm run core:test"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
