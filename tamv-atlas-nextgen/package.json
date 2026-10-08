@@ -22,7 +22,9 @@
     "data:validate": "node scripts/validate-data-schemas.mjs",
     "lint:thcf": "node scripts/lint-thcf.mjs",
     "bookpi:block": "bash scripts/build_bookpi.sh",
-    "chaos:test": "node scripts/chaos-test-config.mjs"
+    "chaos:test": "node scripts/chaos-test-config.mjs",
+    "core:test": "node --test tests/core-runtime.test.js",
+    "core:check": "npm run core:test && npm run typecheck"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
